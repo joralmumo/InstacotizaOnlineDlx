@@ -83,7 +83,7 @@
                     <th>Total</th>
                     <th>Acciones</th>
                 </tr>
-                <tbody>
+                <tbody formArrayName="productos">
                     @for (control of productosArray.controls; track control; let index=$index){
                         <tr [formGroupName]="index">
                             <td><input formControlName="producto" type="text"/></td>
