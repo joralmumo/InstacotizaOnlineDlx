@@ -1,0 +1,150 @@
+<p>cotizador works!</p>
+<H1>{{title}}</H1>
+<form [formGroup]="form">
+    <!--Moneda-->
+    <div class="mb-3">
+        <label for="moneda">Moneda</label>
+        <select formControlName="moneda" id="moneda">
+            <option value="CLP">Pesos Chilenos</option>
+            <option value="UF">UF</option>
+        </select>
+    </div>
+    <!--Empresa-->
+    <div style="background-color: lightgoldenrodyellow;">
+        <h2>DATOS EMPRESA</h2>
+        <div>
+            <label for="nombre_empresa">Nombre Empresa</label>
+            <input formControlName="nombre_empresa" id="nombre_empresa" placeholder="Nombre Empresa">
+        </div>
+        <div>
+            <label for="logo">Su Logo</label>
+            <input type="file" formControlName="logo" id="logo">
+        </div>
+        <div>
+            <label for="rut_empresa">RUT Empresa</label>
+            <input formControlName="rut_empresa" id="rut_empresa" placeholder="RUT Empresa">
+        </div>
+        <div>
+            <label for="telefono_empresa">Teléfono Empresa</label>
+            <input formControlName="telefono_empresa" id="telefono_empresa" placeholder="Teléfono Empresa">
+        </div>
+        <div>
+            <label for="email_empresa">Email Empresa</label>
+            <input formControlName="email_empresa" id="email_empresa" placeholder="Email Empresa">
+        </div>
+        <div>
+            <label for="direccion_empresa">Dirección Empresa</label>
+            <input formControlName="direccion_empresa" id="direccion_empresa" placeholder="Dirección Empresa">
+        </div>
+    </div>
+
+    <!--Cliente-->
+    <div style="background-color: lightblue;">
+        <h2>DATOS CLIENTE</h2>
+        <div>
+            <label for="nombre_cliente">Nombre Cliente</label>
+            <input formControlName="nombre_cliente" id="nombre_cliente" placeholder="Nombre Cliente">
+        </div>
+        <div>
+            <label for="obra_cliente">Obra Cliente</label>
+            <input formControlName="obra_cliente" id="obra_cliente" placeholder="Obra Cliente">
+        </div>
+        <div>
+            <label for="contacto_cliente">Contacto Cliente</label>
+            <input formControlName="contacto_cliente" id="contacto_cliente" placeholder="Contacto Cliente">
+        </div>
+        <div>
+            <label for="email_cliente">Email Cliente</label>
+            <input formControlName="email_cliente" id="email_cliente" placeholder="Email Cliente">
+        </div>
+        <div>
+            <label for="direccion_cliente">Dirección Cliente</label>
+            <input formControlName="direccion_cliente" id="direccion_cliente" placeholder="Dirección Cliente">
+        </div>
+        <div>
+            <label for="fecha">Fecha</label>
+            <input type="date" formControlName="fecha" id="fecha">
+        </div>
+    </div>
+
+    <!--Productos-->
+    <div style="background-color: lightgreen;">
+        <h2>PRODUCTOS</h2>
+        <div>
+            total productos: {{productosArray.length}}
+            <button type="button" (click)="addProduct()">Agregar Producto</button>
+            <table>
+                <tr>
+                    <th>Producto</th>
+                    <th>Descripción</th>
+                    <th>Unidad</th>
+                    <th>Cantidad</th>
+                    <th>Valor Unitario</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+                <tbody>
+                    @for (control of productosArray.controls; track control; let index=$index){
+                        <tr [formGroupName]="index">
+                            <td><input formControlName="producto" type="text"/></td>
+                            <td><textarea formControlName="descripcion"></textarea></td>
+                            <td>
+                                <select formControlName="unidad">
+                                    <option value="" disabled>Seleccione</option>
+                                    <option value="m2">m²</option>
+                                    <option value="m3">m³</option>
+                                    <option value="cm">cm</option>
+                                    <option value="cm2">cm²</option>
+                                </select>
+                            </td>
+                            <td><input formControlName="cantidad" type="number" min="0" /></td>
+                            <td><input formControlName="valorUnitario" type="number" min="0" /></td>
+                            <td><input formControlName="total" type="number" min="0" disable/></td>
+                            <td><button type="button" (click)="removeProduct(index)">Eliminar</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!--Resumen-->
+        <h2>RESUMEN</h2>
+        <table>
+            <tr>
+                <th>Subtotal</th>
+                <th>IVA (19%)</th>
+                <th>Total</th>
+            </tr>
+            <tbody>
+                <tr>
+                    <td>100000</td>
+                    <td>19000</td>
+                    <td>119000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Condiciones-->
+    <div style="background-color: lightcoral;">
+        <h2>CONDICIONES</h2>
+        <div>
+            <label for="validez_oferta">Validez Oferta</label>
+            <input formControlName="validez_oferta" id="validez_oferta" placeholder="Validez Oferta">
+        </div>
+        <div>
+            <label for="forma_pago">Forma de Pago</label>
+            <input formControlName="forma_pago" id="forma_pago" placeholder="Forma de Pago">
+        </div>
+        <div>
+            <label for="presupuesto_incluye">Presupuesto Incluye</label>
+            <input formControlName="presupuesto_incluye" id="presupuesto_incluye" placeholder="Presupuesto Incluye">
+        </div>
+    </div>
+
+    <!--Generar-->
+    <div>
+        <button type="button" (click)="generar_doc()">Generar DOC</button>
+        <span>    </span>
+        <button type="button" (click)="generar_pdf()">Generar PDF</button>
+    </div>
+</form>
