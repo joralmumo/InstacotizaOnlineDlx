@@ -7,6 +7,7 @@
   </div>
   <div class="form-control">
     <label for="moneda" class="label font-medium">Moneda</label>
+    <br>
     <select
       formControlName="moneda"
       id="moneda"
@@ -170,11 +171,10 @@
             @for (control of productosArray.controls; track control; let index=$index){
               <tr [formGroupName]="index">
                 <td>
-                  <input
-                    formControlName="producto"
-                    type="text"
-                    class="input input-bordered input-sm w-full"
-                  />
+                  <textarea
+                    formControlName="descripcion"
+                    class="textarea textarea-bordered textarea-sm w-full"
+                  ></textarea>
                 </td>
                 <td>
                   <textarea
@@ -211,13 +211,7 @@
                   />
                 </td>
                 <td>
-                  <input
-                    formControlName="total"
-                    type="number"
-                    min="0"
-                    disable
-                    class="input input-bordered input-sm w-24"
-                  />
+                  {{ getTotal(index) | number:'1.0-0' }}
                 </td>
                 <td>
                   <button

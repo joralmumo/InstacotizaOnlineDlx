@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Document, Paragraph, TextRun, Table, TableRow, TableCell, AlignmentType, 
          HeadingLevel, WidthType, PageOrientation, convertInchesToTwip } from 'docx';
 import { saveAs } from 'file-saver';
+import { DecimalPipe } from '@angular/common';
 
 interface Producto {
   producto: string;
@@ -45,7 +46,7 @@ type Form = FormGroup<{
 
 @Component({
   selector: 'app-cotizador',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, DecimalPipe],
   templateUrl: './cotizador.component.html',
   styleUrl: './cotizador.component.css'
 })
@@ -86,6 +87,15 @@ export class CotizadorComponent {
       total: this.formBuilder.control(0)
     });
   }
+
+  getTotal(index: number): number {
+    const item = this.productosArray.at(index);
+    if (!item) return 0;
+    const cantidad = item.get('cantidad')?.value || 0;
+    const valor = item.get('valorUnitario')?.value || 0;
+    return cantidad * valor;
+  }
+
   
   addProduct(){
     console.log('HAY CLICK!!!!');
