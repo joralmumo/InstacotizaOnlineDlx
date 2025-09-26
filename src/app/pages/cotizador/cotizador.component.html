@@ -2,20 +2,25 @@
   <!-- Moneda -->
   <div class="flex items-center mb-4 gap-2">
     <h1 class="text-2xl font-bold">Cotizador</h1>
-    <button type="button" class="btn btn-outline btn-sm">Importar Plantilla</button>
-    <button type="button" class="btn btn-outline btn-sm">Exportar Plantilla</button>
+    <button type="button" (click)="importar_cotizacion()" class="btn btn-outline btn-sm">Importar Plantilla</button>
+    <button type="button" (click)="exportar_cotizacion()" class="btn btn-outline btn-sm">Exportar Plantilla</button>
   </div>
   <div class="form-control">
-    <label for="moneda" class="label font-medium">Moneda</label>
-    <br>
-    <select
-      formControlName="moneda"
-      id="moneda"
-      class="select select-bordered w-full"
-    >
-      <option value="CLP">Pesos Chilenos</option>
-      <option value="UF">UF</option>
-    </select>
+    <div class="flex items-center mb-2 gap-2">
+      <label for="moneda" class="label font-medium">Moneda</label>
+      <br>
+      <select
+        formControlName="moneda"
+        id="moneda"
+        class="select select-bordered w-full"
+      >
+        <option value="CLP">Pesos Chilenos</option>
+        <option value="UF">UF</option>
+      </select>
+      <label for="nro_cotizacion">Nº Cotización</label>
+      <input formControlName="nro_cotizacion" id="nro_cotizacion" placeholder="N° Cotización" class="input input-bordered w-32 ml-4"/>
+
+    </div>
   </div>
 
   <!-- Empresa -->
@@ -172,7 +177,7 @@
               <tr [formGroupName]="index">
                 <td>
                   <textarea
-                    formControlName="descripcion"
+                    formControlName="producto"
                     class="textarea textarea-bordered textarea-sm w-full"
                   ></textarea>
                 </td>
@@ -242,9 +247,9 @@
         </thead>
         <tbody>
           <tr>
-            <td>100000</td>
-            <td>19000</td>
-            <td>119000</td>
+            <td>{{ getSubtotal() | number:'1.0-0' }}</td>
+            <td>{{ getIVA() | number:'1.0-0' }}</td>
+            <td>{{ getTotalCotizacion() | number:'1.0-0' }}</td>
           </tr>
         </tbody>
       </table>
@@ -285,10 +290,10 @@
 
   <!-- Generar -->
   <div class="flex gap-2 justify-center">
-    <button type="button" (click)="generar_doc()" class="btn btn-accent">
+    <button type="button" (click)="generar_doc()" class="btn btn-secondary">
       Generar DOC
     </button>
-    <button type="button" (click)="generar_pdf()" class="btn btn-secondary">
+    <button type="button" (click)="generar_pdf()" class="btn btn-primary">
       Generar PDF
     </button>
   </div>
