@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
@@ -14,4 +15,12 @@ export class AppComponent {
     console.log('AppComponent loaded');
   }
 
+  isLoggedIn(): boolean {
+    return sessionStorage.getItem('ingresado') === 'true';
+  }
+
+  cerrarSesion() {
+    sessionStorage.clear();
+    window.location.reload();
+  }
 }

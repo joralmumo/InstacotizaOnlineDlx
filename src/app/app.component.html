@@ -18,7 +18,13 @@
           </a>
         </div>
         <div class="navbar-end">
-          <a class="btn">Iniciar Sesión</a>
+          @if (isLoggedIn()) {
+            <a class="btn" (click)="cerrarSesion()">Cerrar Sesión</a>
+          }
+          @else {
+            <a class="btn" routerLink="/register" routerLinkActive="active" ariaCurrentWhenActive="page">Registrarse</a>
+            <a class="btn" routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Iniciar Sesión</a>
+          }
         </div>
       </div>
     </header>
@@ -41,7 +47,14 @@
     <label for="sidebar" class="drawer-overlay"></label>
     <ul class="menu p-4 w-48 min-h-full bg-base-200 text-base-content">
       <li><a routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">Home</a></li>
-      <li><a routerLink="/cotizador" routerLinkActive="active" ariaCurrentWhenActive="page">Cotizador</a></li>
+      @if (isLoggedIn()) {
+        <li><a routerLink="/cotizador-r" routerLinkActive="active" ariaCurrentWhenActive="page">Cotizador</a></li>
+        <li><a routerLink="/perfil" routerLinkActive="active" ariaCurrentWhenActive="page">Perfil</a></li>
+        <li><a routerLink="/gestor-cotizaciones" routerLinkActive="active" ariaCurrentWhenActive="page">Gestor de Cotizaciones</a></li>
+      }
+      @else {
+        <li><a routerLink="/cotizador" routerLinkActive="active" ariaCurrentWhenActive="page">Cotizador</a></li>
+      }
       <li><a routerLink="/acerca-de" routerLinkActive="active" ariaCurrentWhenActive="page">Acerca de</a></li>
     </ul>
   </div>
