@@ -21,6 +21,7 @@ export interface IUsuarioP{
 }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 // Interfaces para Cotizaciones
 export interface ICotizacion {
     id?: number;
@@ -53,6 +54,8 @@ export interface IProductoCotizacion {
     cantidad: number;
     valorUnitario: number;
 =======
+=======
+>>>>>>> Stashed changes
 export interface ICotizacion{
   nro_cotizacion?: string;
   nombre_empresa?: string;
@@ -81,5 +84,8 @@ export interface IProducto {
   unidad?: string;
   cantidad?: number;
   valorUnitario?: number;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }

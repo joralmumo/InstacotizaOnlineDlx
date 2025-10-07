@@ -1,4 +1,5 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -103,6 +104,18 @@ import { ApicrudService } from '../../services/apicrud.service';
 
 @Component({
   selector: 'app-perfil',
+=======
+import { Component } from '@angular/core';
+import { IUsuarioGPD } from '../interfaces/interfaces';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ApicrudService } from '../../services/apicrud.service';
+
+@Component({
+  selector: 'app-perfil',
+>>>>>>> Stashed changes
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
@@ -111,6 +124,9 @@ export class PerfilComponent {
   usuario: IUsuarioGPD | null = null;
   cargando = true;
   editandoPerfil = false;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
   constructor(private authService: AuthService, 

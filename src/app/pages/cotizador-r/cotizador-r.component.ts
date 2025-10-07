@@ -1,4 +1,5 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,10 +10,16 @@ import { Component, inject, Inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 >>>>>>> Stashed changes
+=======
+import { Component, inject, Inject } from '@angular/core';
+import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+>>>>>>> Stashed changes
 import { Document, Paragraph, TextRun, Table, TableRow, TableCell, AlignmentType, 
          HeadingLevel, WidthType, PageOrientation, convertInchesToTwip,BorderStyle, 
          ShadingType, UnderlineType, Header} from 'docx';
 import { saveAs } from 'file-saver';
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 import { jsPDF } from 'jspdf';
 import {autoTable} from 'jspdf-autotable';
@@ -20,10 +27,15 @@ import { AuthService } from '../../services/auth.service';
 import { ApicrudService } from '../../services/apicrud.service';
 import { ICotizacion, IProductoCotizacion, IUsuarioGPD } from '../interfaces/interfaces';
 =======
+=======
+>>>>>>> Stashed changes
 import { DecimalPipe } from '@angular/common';
 import { ApicrudService } from '../../services/apicrud.service';
 import { jsPDF } from 'jspdf';
 import {autoTable} from 'jspdf-autotable';
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 declare module 'jspdf' {
@@ -73,7 +85,11 @@ type Form = FormGroup<{
 @Component({
   selector: 'app-cotizador-r',
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   imports: [ReactiveFormsModule, CommonModule],
+=======
+  imports: [ReactiveFormsModule, DecimalPipe],
+>>>>>>> Stashed changes
 =======
   imports: [ReactiveFormsModule, DecimalPipe],
 >>>>>>> Stashed changes
@@ -81,6 +97,7 @@ type Form = FormGroup<{
   styleUrl: './cotizador-r.component.css'
 })
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 export class CotizadorRComponent implements OnInit {
   title = 'COTIZADOR DE INSTACOTIZA - USUARIOS REGISTRADOS';
@@ -118,16 +135,22 @@ export class CotizadorRComponent implements OnInit {
   });
 
 =======
+=======
+>>>>>>> Stashed changes
 export class CotizadorRComponent {
   constructor(private apiCrud: ApicrudService) {}
 
   title = 'COTIZADOR DE INSTACOTIZA';
   formBuilder = inject(NonNullableFormBuilder);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   get productosArray(): FormArray<productForm> {
     return this.form.get('productos') as FormArray<productForm>;
   }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   ngOnInit() {
     this.verificarUsuarioAutenticado();
@@ -355,6 +378,8 @@ export class CotizadorRComponent {
         console.error('Error al eliminar la cotización:', error);
         alert('Error al eliminar la cotización. Por favor, intente nuevamente.');
 =======
+=======
+>>>>>>> Stashed changes
   limpiarFormulario() {
     if (confirm('¿Está seguro que desea limpiar el formulario? Se perderán todos los datos no guardados.')) {
       this.form.reset({
@@ -442,11 +467,15 @@ export class CotizadorRComponent {
       error: (error) => {
         console.error('Error al buscar usuario:', error);
         alert('Error al buscar usuario. Por favor, intente nuevamente más tarde.');
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       }
     });
   }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   // Actualizar cotización existente
   actualizarCotizacionBD() {
@@ -551,6 +580,8 @@ export class CotizadorRComponent {
 
   //MÉTODOS DE ICTZ-OFFLINE (EXPORTACION E IMPORTACION)
 =======
+=======
+>>>>>>> Stashed changes
 
   //temporal!! hay que poner la UI que aparezca una lista de las cotizaciones guardadas
   private mostrarListaCotizaciones(cotizaciones: any[]) {
@@ -574,6 +605,9 @@ export class CotizadorRComponent {
   }
 
   //MÉTODOS DE ICTZ-OFFLINE (EXPORTACION E IMPORTACION) con JSONS
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   exportar_cotizacion() {
     console.log('Exportando cotización como plantilla...');
@@ -583,7 +617,11 @@ export class CotizadorRComponent {
       const formData = this.form.value;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       // saco el logo porque da error la cuestion
+=======
+      // saco el logo porque da error la cuestion.......
+>>>>>>> Stashed changes
 =======
       // saco el logo porque da error la cuestion.......
 >>>>>>> Stashed changes
@@ -726,7 +764,11 @@ export class CotizadorRComponent {
   }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   // Cargar datos de la plantilla en el forms
+=======
+  // Cargar datos de la plantilla-json en el forms
+>>>>>>> Stashed changes
 =======
   // Cargar datos de la plantilla-json en el forms
 >>>>>>> Stashed changes
@@ -797,7 +839,10 @@ export class CotizadorRComponent {
   //MÉTODOS DEL FORMULARIO!
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
   form: Form = this.formBuilder.group({
     nro_cotizacion: this.formBuilder.control('', Validators.required),
     nombre_empresa: this.formBuilder.control('', Validators.required),
@@ -819,6 +864,9 @@ export class CotizadorRComponent {
     logo: this.formBuilder.control<File | null>(null)
   });
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   createProductForm(): productForm {
     return this.formBuilder.group({
@@ -1347,6 +1395,7 @@ export class CotizadorRComponent {
     });
   }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
   // FUNCIÓN PARA GENERAR PDF!!
   generar_pdf() {
@@ -1595,6 +1644,8 @@ export class CotizadorRComponent {
     doc.save(fileName);
     console.log('PDF generado exitosamente');
   }
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
