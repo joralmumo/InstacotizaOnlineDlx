@@ -44,6 +44,8 @@ export class LoginComponent{
       this.authService.login(creds).subscribe({
         next: ({ success, user, token }) => {
           if (success) {
+            const userId = user.id;
+            sessionStorage.setItem('id', userId);
             // Guarda datos en sessionStorage
             sessionStorage.setItem('token', token);
             sessionStorage.setItem('correo', user.correo);

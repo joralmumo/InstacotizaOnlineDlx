@@ -1,17 +1,30 @@
+<<<<<<< Updated upstream
 import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+=======
+import { Component, inject, Inject } from '@angular/core';
+import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+>>>>>>> Stashed changes
 import { Document, Paragraph, TextRun, Table, TableRow, TableCell, AlignmentType, 
          HeadingLevel, WidthType, PageOrientation, convertInchesToTwip,BorderStyle, 
          ShadingType, UnderlineType, Header} from 'docx';
 import { saveAs } from 'file-saver';
+<<<<<<< Updated upstream
 import { jsPDF } from 'jspdf';
 import {autoTable} from 'jspdf-autotable';
 import { AuthService } from '../../services/auth.service';
 import { ApicrudService } from '../../services/apicrud.service';
 import { ICotizacion, IProductoCotizacion, IUsuarioGPD } from '../interfaces/interfaces';
+=======
+import { DecimalPipe } from '@angular/common';
+import { ApicrudService } from '../../services/apicrud.service';
+import { jsPDF } from 'jspdf';
+import {autoTable} from 'jspdf-autotable';
+>>>>>>> Stashed changes
 
 declare module 'jspdf' {
   interface jsPDF {
@@ -59,11 +72,16 @@ type Form = FormGroup<{
 
 @Component({
   selector: 'app-cotizador-r',
+<<<<<<< Updated upstream
   imports: [ReactiveFormsModule, CommonModule],
+=======
+  imports: [ReactiveFormsModule, DecimalPipe],
+>>>>>>> Stashed changes
   templateUrl: './cotizador-r.component.html',
   styleUrl: './cotizador-r.component.css'
 })
 
+<<<<<<< Updated upstream
 export class CotizadorRComponent implements OnInit {
   title = 'COTIZADOR DE INSTACOTIZA - USUARIOS REGISTRADOS';
   formBuilder = inject(NonNullableFormBuilder);
@@ -99,10 +117,18 @@ export class CotizadorRComponent implements OnInit {
     logo: this.formBuilder.control<File | null>(null)
   });
 
+=======
+export class CotizadorRComponent {
+  constructor(private apiCrud: ApicrudService) {}
+
+  title = 'COTIZADOR DE INSTACOTIZA';
+  formBuilder = inject(NonNullableFormBuilder);
+>>>>>>> Stashed changes
   get productosArray(): FormArray<productForm> {
     return this.form.get('productos') as FormArray<productForm>;
   }
 
+<<<<<<< Updated upstream
   ngOnInit() {
     this.verificarUsuarioAutenticado();
     this.cargarDatosUsuario();
@@ -328,10 +354,100 @@ export class CotizadorRComponent implements OnInit {
       error: (error) => {
         console.error('Error al eliminar la cotización:', error);
         alert('Error al eliminar la cotización. Por favor, intente nuevamente.');
+=======
+  limpiarFormulario() {
+    if (confirm('¿Está seguro que desea limpiar el formulario? Se perderán todos los datos no guardados.')) {
+      this.form.reset({
+        nro_cotizacion: '',
+        nombre_empresa: '',
+        telefono_empresa: '',
+        rut_empresa: '',
+        email_empresa: '',
+        direccion_empresa: '',
+        productos: [],
+        nombre_cliente: '',
+        obra_cliente: '',
+        contacto_cliente: '',
+        email_cliente: '',
+        direccion_cliente: '',
+        fecha: '',
+        validez_oferta: '',
+        forma_pago: '',
+        presupuesto_incluye: '',
+        moneda: 'CLP',
+        logo: null
+      });
+    }
+  }
+
+  //METODOS DE ICTZ-ONLINE (GUARDAR Y CARGAR COTIZACION)
+  guardarCotizacion() {
+    console.log('Guardando cotización en la base de datos...');
+    if (this.form.valid) {
+      const formData = this.form.value;
+      const userId = sessionStorage.getItem('id')
+      if (!userId){
+        alert('No se encontró usuario logueado. Por favor, inicie sesión nuevamente.');
+        console.log('No se encontró usuario logueado. Por favor, inicie sesión nuevamente.');
+        return;
+      }
+
+      // crear objeto cotizacion
+      const cotizacionData: any = {
+        ...formData,
+        fecha_creacion: new Date().toISOString()
+      };
+
+      if (cotizacionData.logo){
+        delete cotizacionData.logo; // elimino el logo porque da error al guardar xd
+      }
+
+      // guardando coti
+      this.apiCrud.agregarCotizacion(userId, cotizacionData).subscribe({
+        next: (response) => {
+          console.log('Cotización guardada exitosamente:', response);
+          alert('Cotización guardada exitosamente');
+
+          if (response.totalCotizaciones){
+            console.log(`Total cotizaciones del usuario: ${response.totalCotizaciones}`);
+          }
+        },
+        error: (error) => {
+          console.error('Error al guardar la cotización:', error);
+          alert('Error al guardar la cotización. Por favor, intente nuevamente más tarde.');
+        }
+      });
+    } else {
+      console.log('Formulario inválido - No se puede guardar');
+      alert('Por favor, complete todos los campos antes de guardar la cotización');
+    }
+  }
+
+  cargarCotizacion() {
+    console.log('Cargar cotización en la base de datos...');
+    const userId = sessionStorage.getItem('id');
+    if (!userId){
+      alert('No se encontró usuario logueado. Por favor, inicie sesión nuevamente.');
+      return;
+    }
+
+    this.apiCrud.buscarUsuarioPorId(userId).subscribe({
+      next: (user) => {
+        if (user && user.cotizaciones && user.cotizaciones.length > 0) {
+          this.mostrarListaCotizaciones(user.cotizaciones);
+        } else {
+          alert('No se encontraron cotizaciones guardadas para este usuario.');
+        }
+      },
+      error: (error) => {
+        console.error('Error al buscar usuario:', error);
+        alert('Error al buscar usuario. Por favor, intente nuevamente más tarde.');
+>>>>>>> Stashed changes
       }
     });
   }
 
+<<<<<<< Updated upstream
   // Actualizar cotización existente
   actualizarCotizacionBD() {
     if (!this.form.valid) {
@@ -434,6 +550,31 @@ export class CotizadorRComponent implements OnInit {
   }
 
   //MÉTODOS DE ICTZ-OFFLINE (EXPORTACION E IMPORTACION)
+=======
+
+  //temporal!! hay que poner la UI que aparezca una lista de las cotizaciones guardadas
+  private mostrarListaCotizaciones(cotizaciones: any[]) {
+    let mensaje = 'Seleccione una cotización para cargar:\n\n';
+    
+    cotizaciones.forEach((cotizacion, index) => {
+      mensaje += `${index + 1}. ${cotizacion.nro_cotizacion || 'Sin número'} - ${cotizacion.nombre_cliente || 'Sin cliente'} (${cotizacion.fecha || 'Sin fecha'})\n`;
+    });
+
+    const seleccion = prompt(mensaje + '\nIngrese el número de la cotización:');
+    
+    if (seleccion) {
+      const indice = parseInt(seleccion) - 1;
+      if (indice >= 0 && indice < cotizaciones.length) {
+        this.cargarDatosEnFormulario(cotizaciones[indice]);
+        alert('Cotización cargada exitosamente');
+      } else {
+        alert('Selección inválida');
+      }
+    }
+  }
+
+  //MÉTODOS DE ICTZ-OFFLINE (EXPORTACION E IMPORTACION) con JSONS
+>>>>>>> Stashed changes
   exportar_cotizacion() {
     console.log('Exportando cotización como plantilla...');
     
@@ -441,7 +582,11 @@ export class CotizadorRComponent implements OnInit {
       // sacar todos los datos del formulario
       const formData = this.form.value;
 
+<<<<<<< Updated upstream
       // saco el logo porque da error la cuestion
+=======
+      // saco el logo porque da error la cuestion.......
+>>>>>>> Stashed changes
       const datosParaExportar = { ...formData};
       delete datosParaExportar.logo;
 
@@ -580,7 +725,11 @@ export class CotizadorRComponent implements OnInit {
     return true;
   }
 
+<<<<<<< Updated upstream
   // Cargar datos de la plantilla en el forms
+=======
+  // Cargar datos de la plantilla-json en el forms
+>>>>>>> Stashed changes
   private cargarDatosEnFormulario(datos: any) {
     // Confirmar si el usuario quiere reemplazar los datos actuales
     const confirmar = confirm('¿Está seguro que desea cargar esta plantilla? Se reemplazarán todos los datos actuales de la cotización.');
@@ -647,6 +796,30 @@ export class CotizadorRComponent implements OnInit {
 
   //MÉTODOS DEL FORMULARIO!
 
+<<<<<<< Updated upstream
+=======
+  form: Form = this.formBuilder.group({
+    nro_cotizacion: this.formBuilder.control('', Validators.required),
+    nombre_empresa: this.formBuilder.control('', Validators.required),
+    telefono_empresa: this.formBuilder.control('', [Validators.required, Validators.pattern('^[0-9]+$')]),
+    rut_empresa: this.formBuilder.control('', Validators.required),
+    email_empresa: this.formBuilder.control('', [Validators.required, Validators.email]),
+    direccion_empresa: this.formBuilder.control('', Validators.required),
+    productos: this.formBuilder.array<productForm>([this.createProductForm()]),
+    nombre_cliente: this.formBuilder.control('', Validators.required),
+    obra_cliente: this.formBuilder.control('', Validators.required),
+    contacto_cliente: this.formBuilder.control('', Validators.required),
+    email_cliente: this.formBuilder.control('', [Validators.required, Validators.email]),
+    direccion_cliente: this.formBuilder.control('', Validators.required),
+    fecha: this.formBuilder.control('', Validators.required),
+    validez_oferta: this.formBuilder.control('', Validators.required),
+    forma_pago: this.formBuilder.control('', Validators.required),
+    presupuesto_incluye: this.formBuilder.control('', Validators.required),
+    moneda: this.formBuilder.control('CLP', Validators.required),
+    logo: this.formBuilder.control<File | null>(null)
+  });
+
+>>>>>>> Stashed changes
   createProductForm(): productForm {
     return this.formBuilder.group({
       producto: this.formBuilder.control<Producto | null>(null, Validators.required),
@@ -1173,6 +1346,7 @@ export class CotizadorRComponent implements OnInit {
       });
     });
   }
+<<<<<<< Updated upstream
 
   // FUNCIÓN PARA GENERAR PDF!!
   generar_pdf() {
@@ -1421,5 +1595,7 @@ export class CotizadorRComponent implements OnInit {
     doc.save(fileName);
     console.log('PDF generado exitosamente');
   }
+=======
+>>>>>>> Stashed changes
 
 }

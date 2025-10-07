@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { IUsuarioGPD } from "../pages/interfaces/interfaces";
-import { IUsuarioP } from "../pages/interfaces/interfaces";
+import { IUsuarioP, ICotizacion, IProducto } from "../pages/interfaces/interfaces";
 import { environment } from "../../environments/environment";
 
 @Injectable({
@@ -17,16 +17,28 @@ export class ApicrudService{
     crearUsuario(usuario: IUsuarioP): Observable<any> {
     return this.http.post(`${this.apiUrl}/usuarios/register`, usuario);
     }
-    actualizarUsuario(id: number, usuario: IUsuarioP): Observable<IUsuarioGPD> {
-        return this.http.put<IUsuarioGPD>(`${this.apiUrl}/usuarios/${id}`, usuario);
+    actualizarUsuario(userId: string, usuario: IUsuarioGPD): Observable<IUsuarioGPD> {
+        return this.http.put<IUsuarioGPD>(`${this.apiUrl}/usuarios/${userId}`, usuario);
     }
-    eliminarUsuario(id: number): Observable<void> {
+    eliminarUsuario(id: string): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/usuarios/${id}`);
     }
     listarUsuarios(): Observable<IUsuarioGPD[]> {
         return this.http.get<IUsuarioGPD[]>(`${this.apiUrl}/usuarios`);
     }
-    buscarUsuarioPorId(id: number): Observable<IUsuarioGPD> {
+    buscarUsuarioPorId(id: string): Observable<IUsuarioGPD> {
         return this.http.get<IUsuarioGPD>(`${this.apiUrl}/usuarios/${id}`);
+    }
+
+    agregarCotizacion(userId: string, cotizacion: ICotizacion): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/usuarios/${userId}/cotizaciones`, cotizacion);
+    }
+
+    eliminarCotizacion(userId: string, nro_cotizacion: string): Observable<any> {
+        return this.http.delete(`${environment.apiUrl}/usuarios/${userId}/cotizaciones/${nro_cotizacion}`);
+    }
+
+    actualizarCotizacion(userId: string, nro_cotizacion: string, cotizacion: ICotizacion): Observable<any> {
+        return this.http.put(`${environment.apiUrl}/usuarios/${userId}/cotizaciones/${nro_cotizacion}`, cotizacion);
     }
 }
