@@ -2,20 +2,20 @@
     <div>
         <label for="name" class="label">Nombre:</label>
         <br>
-        <input id="name" class="input" formControlName="nombre" />
+        <input id="name" class="input" formControlName="nombre" required />
     </div>
     <br>
     <div>
         <label for="username" class="label">Correo Electrónico:</label>
         <br>
-        <input id="username" class="input" formControlName="correo" />
+        <input id="username" class="input" formControlName="correo" required />
     </div>
     <br>
     <div>
         <label for="password" class="label">Contraseña:</label>
         <br>
-        <input id="password" type="password" class="input" formControlName="contrasena" />
+        <input id="password" type="password" class="input" formControlName="contrasena" required/>
     </div>
     <br>
-    <button type="btn" class="btn btn-success" (click)="Enviar()">Register</button>
+    <button type="btn" class="btn btn-success" (click)="Enviar()">Registrarse</button>
 </form>
