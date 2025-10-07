@@ -5,7 +5,7 @@
     <p class="subtitle">Gestiona tu información personal</p>
   </div>
 
-  <!-- Loading spinner -->
+  <!-- Animación de carga -->
   <div *ngIf="cargando" class="loading-container">
     <div class="spinner"></div>
     <p>Cargando información del perfil...</p>
@@ -14,7 +14,7 @@
   <!-- Contenido principal del perfil -->
   <div *ngIf="!cargando && usuario" class="perfil-content">
     
-    <!-- Tarjeta de información del usuario -->
+    <!-- Tarjeta del usuario -->
     <div class="usuario-card">
       
       <!-- Avatar y info básica -->
@@ -135,11 +135,11 @@
       </div>
     </div>
 
-    <!-- Acciones adicionales -->
+    <!-- Otras acciones -->
     <div class="acciones-card">
       <h3>Acciones de Cuenta</h3>
       <div class="acciones-list">
-        <a href="/update-perfil" class="accion-item">
+        <a href="/recuperar-contrasena" class="accion-item">
           <i class="icon-settings"></i>
           <div>
             <h4>Cambiar Contraseña</h4>
@@ -169,7 +169,7 @@
     </div>
   </div>
 
-  <!-- Estado de error -->
+  <!-- Errores -->
   <div *ngIf="!cargando && !usuario" class="error-container">
     <div class="error-icon">⚠️</div>
     <h3>No se pudo cargar el perfil</h3>
