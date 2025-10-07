@@ -164,7 +164,7 @@ export class CotizadorRComponent {
 
   //temporal!! hay que poner la UI que aparezca una lista de las cotizaciones guardadas
   private mostrarListaCotizaciones(cotizaciones: any[]) {
-    let mensaje = 'Seleccione una cotización para cargar:\n\n';
+    let mensaje = 'FUNCION TEMPORAL!!\n\nSeleccione una cotización para cargar:\n\n';
     
     cotizaciones.forEach((cotizacion, index) => {
       mensaje += `${index + 1}. ${cotizacion.nro_cotizacion || 'Sin número'} - ${cotizacion.nombre_cliente || 'Sin cliente'} (${cotizacion.fecha || 'Sin fecha'})\n`;

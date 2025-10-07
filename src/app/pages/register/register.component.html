@@ -1,15 +1,21 @@
 <form [formGroup]="registerForm">
     <div>
-        <label for="name">Nombre:</label>
-        <input id="name" formControlName="nombre" />
+        <label for="name" class="label">Nombre:</label>
+        <br>
+        <input id="name" class="input" formControlName="nombre" />
     </div>
+    <br>
     <div>
-        <label for="username">Correo Electrónico:</label>
-        <input id="username" formControlName="correo" />
+        <label for="username" class="label">Correo Electrónico:</label>
+        <br>
+        <input id="username" class="input" formControlName="correo" />
     </div>
+    <br>
     <div>
-        <label for="password">Contraseña:</label>
-        <input id="password" type="password" formControlName="contrasena" />
+        <label for="password" class="label">Contraseña:</label>
+        <br>
+        <input id="password" type="password" class="input" formControlName="contrasena" />
     </div>
-    <button type="btn" (click)="Enviar()">Register</button>
+    <br>
+    <button type="btn" class="btn btn-success" (click)="Enviar()">Register</button>
 </form>
