@@ -31,4 +31,8 @@ export class AuthService {
     return sessionStorage.getItem('correo')!=null;
   }
 
+  IsAdmin(){
+    return sessionStorage.getItem('rol')==='admin';
+  }
+
   }

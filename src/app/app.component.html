@@ -55,6 +55,9 @@
       @else {
         <li><a routerLink="/cotizador" routerLinkActive="active" ariaCurrentWhenActive="page">Cotizador</a></li>
       }
+      @if (isLoggedIn() && isAdmin()) {
+        <li><a routerLink="/admin" routerLinkActive="active" ariaCurrentWhenActive="page">Administrador</a></li>
+      }
       <li><a routerLink="/acerca-de" routerLinkActive="active" ariaCurrentWhenActive="page">Acerca de</a></li>
     </ul>
   </div>

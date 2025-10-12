@@ -10,6 +10,8 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { GestorCotizacionesComponent } from './pages/gestor-cotizaciones/gestor-cotizaciones.component';
 import { RecuperarContrasenaComponent } from './pages/recuperar-contrasena/recuperar-contrasena.component';
 import { UpdatePerfilComponent } from './pages/update-perfil/update-perfil.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
     {path: 'home', component: HomeComponent},
@@ -22,6 +24,7 @@ export const routes: Routes = [
     {path: 'gestor-cotizaciones', component: GestorCotizacionesComponent, canActivate: [AutorizadoGuard]}, 
     {path: 'recuperar-contrasena', component: RecuperarContrasenaComponent}, 
     {path: 'update-perfil', component: UpdatePerfilComponent, canActivate: [AutorizadoGuard]}, 
+    {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
     {path: '', component: HomeComponent},
     {path: '**', redirectTo: 'home'}, // en caso de 404
 ];

@@ -18,6 +18,9 @@ export class AppComponent {
   isLoggedIn(): boolean {
     return sessionStorage.getItem('ingresado') === 'true';
   }
+  isAdmin(): boolean {
+    return sessionStorage.getItem('rol') === 'admin';
+  }
 
   cerrarSesion() {
     sessionStorage.clear();
