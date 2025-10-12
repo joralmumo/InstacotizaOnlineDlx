@@ -31,11 +31,11 @@ export class ApicrudService{
     }
 
     agregarCotizacion(userId: string, cotizacion: ICotizacion): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/usuarios/${userId}/cotizaciones`, cotizacion);
+        return this.http.post(`${environment.apiUrl}/usuarios/${userId}/cotizaciones`, cotizacion);
     }
 
-    eliminarCotizacion(userId: string, nro_cotizacion: string): Observable<any> {
-        return this.http.delete(`${environment.apiUrl}/usuarios/${userId}/cotizaciones/${nro_cotizacion}`);
+    eliminarCotizacion(userId: string, cotizacionIndex: number): Observable<any> {
+        return this.http.delete(`${environment.apiUrl}/usuarios/${userId}/cotizaciones/${cotizacionIndex}`);
     }
 
     actualizarCotizacion(userId: string, nro_cotizacion: string, cotizacion: ICotizacion): Observable<any> {
