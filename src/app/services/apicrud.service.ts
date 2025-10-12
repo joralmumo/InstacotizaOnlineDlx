@@ -5,9 +5,16 @@ import { IUsuarioGPD } from "../pages/interfaces/interfaces";
 import { IUsuarioP, ICotizacion, IProducto } from "../pages/interfaces/interfaces";
 import { environment } from "../../environments/environment";
 
+interface ListarUsuariosResponse {
+  success: boolean;
+  users: IUsuarioGPD[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
+
+
 
 export class ApicrudService{
     private apiUrl = environment.apiUrl; //definir api del mongo!!
@@ -20,11 +27,11 @@ export class ApicrudService{
     actualizarUsuario(userId: string, usuario: IUsuarioGPD): Observable<IUsuarioGPD> {
         return this.http.put<IUsuarioGPD>(`${this.apiUrl}/usuarios/${userId}`, usuario);
     }
-    eliminarUsuario(id: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/usuarios/${id}`);
+    eliminarUsuario(userId: string): Observable<{ success: boolean }> {
+        return this.http.delete<{ success: boolean }>(`${this.apiUrl}/usuarios/${userId}`);
     }
-    listarUsuarios(): Observable<IUsuarioGPD[]> {
-        return this.http.get<IUsuarioGPD[]>(`${this.apiUrl}/usuarios`);
+    listarUsuarios(): Observable<ListarUsuariosResponse> {
+        return this.http.get<ListarUsuariosResponse>(`${this.apiUrl}/usuarios/all`);
     }
     buscarUsuarioPorId(id: string): Observable<IUsuarioGPD> {
         return this.http.get<IUsuarioGPD>(`${this.apiUrl}/usuarios/${id}`);
