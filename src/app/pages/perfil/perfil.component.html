@@ -24,7 +24,7 @@
                         <span class="avatar-initials">{{ obtenerIniciales() }}</span>
                     </div>
                     <div class="usuario-info">
-                        <h2>{{usuario.nombre}}</h2>
+                         <h2>{{usuario.nombre}}</h2>
                         <p class="correo">{{ usuario.correo }}</p>
                     </div>
                     <div class="acciones-header">
@@ -36,10 +36,9 @@
                         }
                     </div>
                 </div>
-            </div>
 
-            <!--Info detallada-->
-            <div class="usuario-detalles">
+                <!--Info detallada-->
+                <div class="usuario-detalles">
                 <!-- Modo de visualizacion -->
                 @if (!editandoPerfil){
                     <div class="info-grid">
@@ -86,46 +85,48 @@
                         </button>
                     </div>
                 }
-                <br>
-                <div>
-                    <div class="estadisticas-card">
-                        <h3>Resumen de Actividad</h3>
-                        <div class="stats-grid">
-                            <div class="stat-item">
-                            <div class="stat-number">{{ usuario.cotizaciones.length || 0 }}</div>
-                            <div class="stat-label">Cotizaciones Totales</div>
-                            </div>
-                            <div class="stat-item">
-                            <div class="stat-number">{{ usuario.isactive ? 'Activa' : 'Inactiva' }}</div>
-                            <div class="stat-label">Estado de Cuenta</div>
-                            </div>
+            </div>
+            </div>
+
+            <br>
+            <div>
+                <div class="estadisticas-card">
+                    <h3>Resumen de Actividad</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                        <div class="stat-number">{{ usuario.cotizaciones.length || 0 }}</div>
+                        <div class="stat-label">Cotizaciones Totales</div>
+                        </div>
+                        <div class="stat-item">
+                        <div class="stat-number">{{ usuario.isactive ? 'Activa' : 'Inactiva' }}</div>
+                        <div class="stat-label">Estado de Cuenta</div>
                         </div>
                     </div>
                 </div>
-                <br>
-                <!-- Otras acciones -->
-                <div class="acciones-card">
-                <h3>Acciones de Cuenta</h3>
-                <div class="acciones-list">
-                    <a href="/recuperar-contrasena" class="accion-item">
-                    <i class="icon-settings"></i>
-                    <div>
-                        <h4>Cambiar Contraseña</h4>
-                        <p>Actualiza tu contraseña de acceso</p>
-                    </div>
-                    <i class="icon-arrow-right"></i>
-                    </a>
-                    
-                    <a href="/gestor-cotizaciones" class="accion-item">
-                    <i class="icon-list"></i>
-                    <div>
-                        <h4>Mis Cotizaciones</h4>
-                        <p>Ver todas tus cotizaciones realizadas</p>
-                    </div>
-                    <i class="icon-arrow-right"></i>
-                    </a>
+            </div>
+            <br>
+            <!-- Otras acciones -->
+            <div class="acciones-card">
+            <h3>Acciones de Cuenta</h3>
+            <div class="acciones-list">
+                <a href="/recuperar-contrasena" class="accion-item">
+                <i class="icon-settings"></i>
+                <div>
+                    <h4>Cambiar Contraseña</h4>
+                    <p>Actualiza tu contraseña de acceso</p>
                 </div>
+                <i class="icon-arrow-right"></i>
+                </a>
+                
+                <a href="/gestor-cotizaciones" class="accion-item">
+                <i class="icon-list"></i>
+                <div>
+                    <h4>Mis Cotizaciones</h4>
+                    <p>Ver todas tus cotizaciones realizadas</p>
                 </div>
+                <i class="icon-arrow-right"></i>
+                </a>
+            </div>
             </div>
         </div>
     }

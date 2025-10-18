@@ -71,7 +71,8 @@ export class PerfilComponent {
 
   guardarCambios() {
     const userId = sessionStorage.getItem('id');
-    if (userId && this.usuarioEditado) {
+   if (userId && this.usuarioEditado) {
+      
       this.api.actualizarUsuario(userId, this.usuarioEditado).subscribe();
       sessionStorage.clear();
       this.router.navigate(['/login']);
