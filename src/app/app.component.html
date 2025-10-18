@@ -45,20 +45,32 @@
   <!-- Sidebar -->
   <div class="drawer-side">
     <label for="sidebar" class="drawer-overlay"></label>
-    <ul class="menu p-4 w-48 min-h-full bg-base-200 text-base-content">
-      <li><a routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">Home</a></li>
+    <ul class="menu p-4 w-48 min-h-full bg-base-200 text-base-content flex flex-col">
+      <li><a routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">🏠 Home</a></li>
       @if (isLoggedIn()) {
-        <li><a routerLink="/cotizador-r" routerLinkActive="active" ariaCurrentWhenActive="page">Cotizador</a></li>
-        <li><a routerLink="/perfil" routerLinkActive="active" ariaCurrentWhenActive="page">Perfil</a></li>
-        <li><a routerLink="/gestor-cotizaciones" routerLinkActive="active" ariaCurrentWhenActive="page">Gestor de Cotizaciones</a></li>
+        <li><a routerLink="/cotizador-r" routerLinkActive="active" ariaCurrentWhenActive="page">📝 Cotizador</a></li>
+        <li><a routerLink="/perfil" routerLinkActive="active" ariaCurrentWhenActive="page">👤 Perfil</a></li>
+        <li><a routerLink="/gestor-cotizaciones" routerLinkActive="active" ariaCurrentWhenActive="page">📋 Gestor</a></li>
       }
       @else {
-        <li><a routerLink="/cotizador" routerLinkActive="active" ariaCurrentWhenActive="page">Cotizador</a></li>
+        <li><a routerLink="/cotizador" routerLinkActive="active" ariaCurrentWhenActive="page">📝 Cotizador</a></li>
       }
       @if (isLoggedIn() && isAdmin()) {
-        <li><a routerLink="/admin" routerLinkActive="active" ariaCurrentWhenActive="page">Administrador</a></li>
+        <li><a routerLink="/admin" routerLinkActive="active" ariaCurrentWhenActive="page">⚙️ Admin</a></li>
       }
-      <li><a routerLink="/acerca-de" routerLinkActive="active" ariaCurrentWhenActive="page">Acerca de</a></li>
+      <li><a routerLink="/acerca-de" routerLinkActive="active" ariaCurrentWhenActive="page">ℹ️ Acerca de</a></li>
+      
+      <!-- Separador y botón de cerrar sesión -->
+      @if (isLoggedIn()) {
+        <li class="mt-auto">
+          <hr class="my-2 border-base-300">
+        </li>
+        <li>
+          <a (click)="cerrarSesion()" class="logout-btn">
+            ⏻ Cerrar Sesión
+          </a>
+        </li>
+      }
     </ul>
   </div>
 </div>

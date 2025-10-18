@@ -1,0 +1,41 @@
+/* Botón de cerrar sesión */
+.logout-btn {
+  background: oklch(69% 0.17 162.48) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  transition: none !important;
+  pointer-events: auto !important;
+}
+
+.logout-btn:hover {
+  background: oklch(69% 0.17 162.48) !important;
+  color: white !important;
+  transform: none !important;
+}
+
+.logout-btn:active {
+  background: oklch(60% 0.17 162.48) !important;
+  opacity: 0.9;
+}
+
+/* Separador mejorado */
+.menu li hr {
+  opacity: 0.3;
+  margin: 0.5rem 0;
+}
+
+/* Iconos en el menú con mejor espaciado */
+.menu li a {
+  gap: 0.75rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.menu li a:hover {
+  transform: translateX(4px);
+}
+
+/* Quitar hover del botón de logout */
+.logout-btn:hover {
+  transform: none !important;
+}
