@@ -44,12 +44,13 @@
   font-size: 0.95rem;
 }
 
-/* ===== BOTONES DE AUTENTICACIÓN EN HEADER (Diseño Flat Minimalista) ===== */
+/* ===== Botones registro y login ===== */
 .btn-register-header,
 .btn-login-header {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   padding: 0.5rem 1.25rem;
   border-radius: 0.5rem;
   font-weight: 500;
@@ -62,7 +63,21 @@
   border: 1px solid transparent;
 }
 
-/* Registrarse - Secundario ghost/outline */
+/* Iconos SVG dentro de los botones */
+.btn-register-header .btn-icon,
+.btn-login-header .btn-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-register-header:hover .btn-icon,
+.btn-login-header:hover .btn-icon {
+  transform: scale(1.1);
+}
+
+/* Registrarse */
 .btn-register-header {
   background: transparent;
   color: oklch(40% 0.08 264.542);
@@ -79,7 +94,7 @@
   background: oklch(92% 0.02 264.542);
 }
 
-/* Iniciar Sesión - Primario con fondo de color */
+/* Iniciar Sesión */
 .btn-login-header {
   background: oklch(69% 0.17 162.48);
   color: white;
@@ -105,7 +120,7 @@
     padding: 0.5rem;
   }
 
-  /* En móviles, hacer los botones más compactos */
+  /* Botoncitos compáctos */
   .btn-register-header,
   .btn-login-header {
     padding: 0.5rem 1rem;
@@ -113,7 +128,7 @@
   }
 }
 
-/* ===== BOTÓN DE CERRAR SESIÓN EN SIDEBAR ===== */
+/* ===== BOTÓN DE CERRAR SESIÓN ===== */
 /* Botón de cerrar sesión */
 .logout-btn {
   background: oklch(69% 0.17 162.48) !important;
@@ -140,7 +155,7 @@
   margin: 0.5rem 0;
 }
 
-/* Iconos en el menú con mejor espaciado */
+/* Iconos en el menú con espacio */
 .menu li a {
   gap: 0.75rem;
   border-radius: 0.5rem;
