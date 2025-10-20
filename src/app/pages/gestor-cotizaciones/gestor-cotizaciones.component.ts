@@ -39,6 +39,11 @@ export class GestorCotizacionesComponent implements OnInit {
   }
 
   cargarCotizacion(cotizacion: ICotizacion, index: number){
+    const confirmar = confirm('¿Está seguro que desea cargar esta plantilla? Se reemplazarán todos los datos actuales de la cotización.');
+    
+    if (!confirmar) {
+      return;
+    }
     this.cotizacionShared.setCotizacionSeleccionada(cotizacion);
     this.router.navigate(['/cotizador-r']);
   }

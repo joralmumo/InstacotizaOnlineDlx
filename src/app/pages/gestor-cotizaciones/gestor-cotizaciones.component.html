@@ -41,6 +41,7 @@
             <th>Fecha</th>
             <th>Creada</th>
             <th>Productos</th>
+            <TH>Valor</TH>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -53,6 +54,7 @@
                 <td>{{ cotizacion.fecha }}</td>
                 <td>{{ cotizacion.fecha_creacion }}</td>
                 <td>{{ cotizacion.productos.length }}</td>
+                <td>{{ calcularTotalCotizacion(cotizacion.productos, cotizacion.moneda ?? 'CLP') }}</td>
                 <td>
                   <button
                     class="btn btn-primary"

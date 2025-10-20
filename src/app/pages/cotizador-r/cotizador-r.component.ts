@@ -11,6 +11,7 @@ import { jsPDF } from 'jspdf';
 import {autoTable} from 'jspdf-autotable';
 import { CotizacionSharedService } from '../../services/cotizacion-shared.service';
 import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 declare module 'jspdf' {
   interface jsPDF {
@@ -64,6 +65,8 @@ type Form = FormGroup<{
 })
 
 export class CotizadorRComponent implements OnInit, OnDestroy{
+  private formSubscription?: Subscription;
+  private readonly STORAGE_KEY = 'cotizador_draft';
 
   private cotizacionSubscription?: Subscription;
 
@@ -72,7 +75,15 @@ export class CotizadorRComponent implements OnInit, OnDestroy{
   ) {}
 
   ngOnInit() {
-    // Escuchar cotizaciones entrantes
+    this.cargarDatosGuardados();
+
+    this.formSubscription = this.form.valueChanges
+      .pipe(debounceTime(500)) // Esperar 500ms después del último cambio
+      .subscribe(() => {
+        this.guardarBorrador();
+    });    
+
+    // cachar si hay cotizaciones
     this.cotizacionSubscription = this.cotizacionShared.cotizacionSeleccionada$
       .subscribe(cotizacion => {
         if (cotizacion) {
@@ -80,15 +91,47 @@ export class CotizadorRComponent implements OnInit, OnDestroy{
           this.cargarDatosEnFormulario(cotizacion);
           // Limpiar después de cargar
           this.cotizacionShared.clearCotizacionSeleccionada();
+          this.guardarBorrador();
         }
       });
   }
 
   ngOnDestroy() {
     // Limpiar suscripción
+    if (this.formSubscription){
+      this.formSubscription.unsubscribe();
+    }
     if (this.cotizacionSubscription) {
       this.cotizacionSubscription.unsubscribe();
     }
+  }
+
+  private guardarBorrador() {
+    try {
+      const formData = this.form.value;
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(formData));
+      console.log('Borrador guardado automáticamente');
+    } catch (error) {
+      console.error('Error al guardar borrador:', error);
+    }
+  }
+
+  private cargarDatosGuardados() {
+    try {
+      const savedData = localStorage.getItem(this.STORAGE_KEY);
+      if (savedData) {
+        const parsedData = JSON.parse(savedData);
+        console.log('Cargando borrador guardado:', parsedData);
+        this.cargarDatosEnFormulario(parsedData);
+      }
+    } catch (error) {
+      console.error('Error al cargar borrador:', error);
+    }
+  }
+
+  limpiarBorrador() {
+    localStorage.removeItem(this.STORAGE_KEY);
+    console.log('Borrador eliminado');
   }
 
   title = 'COTIZADOR DE INSTACOTIZA';
@@ -119,6 +162,7 @@ export class CotizadorRComponent implements OnInit, OnDestroy{
         moneda: 'CLP',
         logo: null
       });
+      this.limpiarBorrador();
     }
   }
 
@@ -149,6 +193,8 @@ export class CotizadorRComponent implements OnInit, OnDestroy{
         next: (response) => {
           console.log('Cotización guardada exitosamente:', response);
           alert('Cotización guardada exitosamente');
+
+          this.limpiarBorrador();
 
           if (response.totalCotizaciones){
             console.log(`Total cotizaciones del usuario: ${response.totalCotizaciones}`);
@@ -360,11 +406,13 @@ export class CotizadorRComponent implements OnInit, OnDestroy{
   // Cargar datos de la plantilla-json en el forms
   private cargarDatosEnFormulario(datos: any) {
     // Confirmar si el usuario quiere reemplazar los datos actuales
+    /*
     const confirmar = confirm('¿Está seguro que desea cargar esta plantilla? Se reemplazarán todos los datos actuales de la cotización.');
     
     if (!confirmar) {
       return;
     }
+      */
     
     try {
       // Limpiar productos actuales (dejar solo uno vacío)
