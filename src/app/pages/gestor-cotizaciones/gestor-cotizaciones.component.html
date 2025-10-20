@@ -40,17 +40,28 @@
             <th>Obra</th>
             <th>Fecha</th>
             <th>Creada</th>
+            <th>Productos</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        @for (cotizacion of cotizaciones; track cotizacion._id) {
+        @for (cotizacion of cotizaciones; track cotizacion.nro_cotizacion) {
             <tr>
                 <td>{{ cotizacion.nro_cotizacion }}</td>
                 <td>{{ cotizacion.nombre_cliente }}</td>
                 <td>{{ cotizacion.obra_cliente }}</td>
-                <td>{{ formatearFecha(cotizacion.fecha) }}</td>
-                <td>{{ formatearFecha(cotizacion.fecha_creacion) }}</td>
+                <td>{{ cotizacion.fecha }}</td>
+                <td>{{ cotizacion.fecha_creacion }}</td>
+                <td>{{ cotizacion.productos.length }}</td>
+                <td>
+                  <button
+                    class="btn btn-primary"
+                    (click)="cargarCotizacion(cotizacion, $index)"
+                    title="Cargar cotizacion"
+                  >
+                    Cargar Cotización
+                  </button>
+                </td>
                 <td>
                     <button 
                       class="btn btn-error" 

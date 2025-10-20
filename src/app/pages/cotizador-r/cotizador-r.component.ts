@@ -1,4 +1,4 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Document, Paragraph, TextRun, Table, TableRow, TableCell, AlignmentType, 
@@ -9,6 +9,8 @@ import { DecimalPipe } from '@angular/common';
 import { ApicrudService } from '../../services/apicrud.service';
 import { jsPDF } from 'jspdf';
 import {autoTable} from 'jspdf-autotable';
+import { CotizacionSharedService } from '../../services/cotizacion-shared.service';
+import { Subscription } from 'rxjs';
 
 declare module 'jspdf' {
   interface jsPDF {
@@ -61,8 +63,33 @@ type Form = FormGroup<{
   styleUrl: './cotizador-r.component.css'
 })
 
-export class CotizadorRComponent {
-  constructor(private apiCrud: ApicrudService) {}
+export class CotizadorRComponent implements OnInit, OnDestroy{
+
+  private cotizacionSubscription?: Subscription;
+
+  constructor(private apiCrud: ApicrudService,
+              private cotizacionShared: CotizacionSharedService
+  ) {}
+
+  ngOnInit() {
+    // Escuchar cotizaciones entrantes
+    this.cotizacionSubscription = this.cotizacionShared.cotizacionSeleccionada$
+      .subscribe(cotizacion => {
+        if (cotizacion) {
+          console.log('Cotización recibida:', cotizacion);
+          this.cargarDatosEnFormulario(cotizacion);
+          // Limpiar después de cargar
+          this.cotizacionShared.clearCotizacionSeleccionada();
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    // Limpiar suscripción
+    if (this.cotizacionSubscription) {
+      this.cotizacionSubscription.unsubscribe();
+    }
+  }
 
   title = 'COTIZADOR DE INSTACOTIZA';
   formBuilder = inject(NonNullableFormBuilder);

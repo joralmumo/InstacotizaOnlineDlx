@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApicrudService } from '../../services/apicrud.service';
+import { CotizacionSharedService } from '../../services/cotizacion-shared.service';
+import { Router } from '@angular/router';
+import { ICotizacion } from '../interfaces/interfaces';
 
+/*
 interface Cotizacion {
   _id?: string;
   nro_cotizacion: string;
@@ -12,7 +16,7 @@ interface Cotizacion {
   moneda: string;
   productos: any[];
 }
-
+*/
 @Component({
   selector: 'app-gestor-cotizaciones',
   imports: [CommonModule],
@@ -21,14 +25,22 @@ interface Cotizacion {
 })
 export class GestorCotizacionesComponent implements OnInit {
   
-  cotizaciones: Cotizacion[] = [];
+  cotizaciones: ICotizacion[] = [];
   isLoading = false;
   error: string | null = null;
 
-  constructor(private apiCrud: ApicrudService) {}
+  constructor(private apiCrud: ApicrudService,
+              private cotizacionShared: CotizacionSharedService,
+              private router: Router
+  ) {}
 
   ngOnInit() {
     this.cargarCotizaciones();
+  }
+
+  cargarCotizacion(cotizacion: ICotizacion, index: number){
+    this.cotizacionShared.setCotizacionSeleccionada(cotizacion);
+    this.router.navigate(['/cotizador-r']);
   }
 
   cargarCotizaciones() {
@@ -50,10 +62,21 @@ export class GestorCotizacionesComponent implements OnInit {
           this.cotizaciones = user.cotizaciones.map((cot: any) => ({
             _id: cot._id,
             nro_cotizacion: cot.nro_cotizacion || 'Sin número',
+            nombre_empresa: cot.nombre_empresa || 'Sin Nombre',
+            telefono_empresa: cot.telefono_empresa,
+            rut_empresa: cot.telefono_empresa,
+            email_empresa: cot.email_empresa,
+            direccion_empresa: cot.direccion_empresa,
             nombre_cliente: cot.nombre_cliente || 'Sin cliente',
             obra_cliente: cot.obra_cliente || 'Sin obra',
+            contacto_cliente: cot.contacto_cliente,
+            email_cliente: cot.email_cliente,
+            direccion_cliente: cot.direccion_cliente,
             fecha: cot.fecha || 'Sin fecha',
             fecha_creacion: cot.fecha_creacion || 'Sin fecha de creación',
+            validez_oferta: cot.validez_oferta,
+            forma_pago: cot.forma_pago,
+            presupuesto_incluye: cot.presupuesto_incluye,
             moneda: cot.moneda || 'CLP',
             productos: cot.productos || []
           }));
@@ -71,7 +94,7 @@ export class GestorCotizacionesComponent implements OnInit {
     });
   }
 
-  eliminarCotizacion(cotizacion: Cotizacion, index: number) {
+  eliminarCotizacion(cotizacion: ICotizacion, index: number) {
     const confirmMessage = `¿Está seguro que desea eliminar la cotización "${cotizacion.nro_cotizacion}" del cliente "${cotizacion.nombre_cliente}"?`;
     
     if (!confirm(confirmMessage)) {
