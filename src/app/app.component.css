@@ -44,6 +44,57 @@
   font-size: 0.95rem;
 }
 
+/* ===== BOTONES DE AUTENTICACIÓN EN HEADER (Diseño Flat Minimalista) ===== */
+.btn-register-header,
+.btn-login-header {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+}
+
+/* Registrarse - Secundario ghost/outline */
+.btn-register-header {
+  background: transparent;
+  color: oklch(40% 0.08 264.542);
+  border-color: oklch(75% 0.02 264.542);
+}
+
+.btn-register-header:hover {
+  background: oklch(95% 0.01 264.542);
+  border-color: oklch(69% 0.17 162.48);
+  color: oklch(69% 0.17 162.48);
+}
+
+.btn-register-header:active {
+  background: oklch(92% 0.02 264.542);
+}
+
+/* Iniciar Sesión - Primario con fondo de color */
+.btn-login-header {
+  background: oklch(69% 0.17 162.48);
+  color: white;
+}
+
+.btn-login-header:hover {
+  background: oklch(64% 0.19 162.48);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-login-header:active {
+  background: oklch(60% 0.2 162.48);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* Responsive - ocultar nombre en pantallas pequeñas */
 @media (max-width: 640px) {
   .user-name-header {
@@ -52,6 +103,13 @@
   
   .user-profile-link {
     padding: 0.5rem;
+  }
+
+  /* En móviles, hacer los botones más compactos */
+  .btn-register-header,
+  .btn-login-header {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
   }
 }
 
@@ -76,7 +134,7 @@
   opacity: 0.9;
 }
 
-/* Separador mejorado */
+/* Separador */
 .menu li hr {
   opacity: 0.3;
   margin: 0.5rem 0;
