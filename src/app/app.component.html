@@ -7,7 +7,7 @@
     <header>
       <div class="navbar bg-base-100 shadow-sm">
         <div class="navbar-start">
-          <!-- Botón para abrir el sidebar en móvil -->
+          <!-- Botón para abrir el sidebar en celu -->
           <label for="sidebar" class="btn btn-ghost lg:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
@@ -19,7 +19,12 @@
         </div>
         <div class="navbar-end gap-2">
           @if (isLoggedIn()) {
-            <a class="btn" (click)="cerrarSesion()">Cerrar Sesión</a>
+            <a class="user-profile-link" routerLink="/perfil" routerLinkActive="active">
+              <div class="avatar-circle-small">
+                <span class="avatar-initials-small">{{ getInitials() }}</span>
+              </div>
+              <span class="user-name-header">{{ getUserName() }}</span>
+            </a>
           }
           @else {
             <a class="btn" routerLink="/register" routerLinkActive="active" ariaCurrentWhenActive="page">Registrarse</a>

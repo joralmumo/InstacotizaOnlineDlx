@@ -1,3 +1,61 @@
+/* ===== PERFIL EN HEADER ===== */
+.user-profile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  background: oklch(96% 0.003 264.542);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  border: 2px solid transparent;
+}
+
+.user-profile-link:hover {
+  background: oklch(92% 0.006 264.531);
+  border-color: oklch(69% 0.17 162.48);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-circle-small {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, oklch(69% 0.17 162.48) 0%, oklch(55% 0.046 257.417) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.avatar-initials-small {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.user-name-header {
+  color: oklch(21% 0.034 264.665);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Responsive - ocultar nombre en pantallas pequeñas */
+@media (max-width: 640px) {
+  .user-name-header {
+    display: none;
+  }
+  
+  .user-profile-link {
+    padding: 0.5rem;
+  }
+}
+
+/* ===== BOTÓN DE CERRAR SESIÓN EN SIDEBAR ===== */
 /* Botón de cerrar sesión */
 .logout-btn {
   background: oklch(69% 0.17 162.48) !important;
