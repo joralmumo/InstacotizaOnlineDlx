@@ -208,5 +208,16 @@
     </div>
   </div>
 
+  <!-- Botón Volver Arriba -->
+  @if (showScrollTop) {
+    <button 
+      (click)="scrollToTop()"
+      class="fixed bottom-8 right-8 btn btn-circle btn-primary shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in"
+      aria-label="Volver arriba">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
+  }
 
 </div>
