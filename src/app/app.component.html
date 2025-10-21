@@ -19,17 +19,7 @@
           </a>
         </div>
         
-        <div class="navbar-center navbar-center-visible">
-          <nav class="nav-links">
-            @if (isLoggedIn()) {
-              <a routerLink="/cotizador-r" routerLinkActive="active-nav" class="nav-link">Cotizador</a>
-              <a routerLink="/gestor-cotizaciones" routerLinkActive="active-nav" class="nav-link">Gestor</a>
-              @if (isAdmin()) {
-                <a routerLink="/admin" routerLinkActive="active-nav" class="nav-link">Admin</a>
-              }
-            }
-          </nav>
-        </div>
+
 
         <div class="navbar-end gap-2">
           @if (isLoggedIn()) {
