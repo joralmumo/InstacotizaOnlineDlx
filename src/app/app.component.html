@@ -4,19 +4,33 @@
   <input id="sidebar" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content flex flex-col">
     <!-- Navbar -->
-    <header>
-      <div class="navbar bg-base-100 shadow-sm">
+    <header class="navbar-header">
+      <div class="navbar bg-base-100">
         <div class="navbar-start">
           <!-- Botón para abrir el sidebar en celu -->
-          <label for="sidebar" class="btn btn-ghost lg:hidden">
+          <label for="sidebar" class="btn btn-ghost lg:hidden menu-toggle-btn">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </label>
-          <a class="btn btn-square" routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">
-            <img src="https://github.com/joralmumo/InstacotizaOnlineDlx/blob/main/src/app/static/img/icon.png?raw=true" alt="ictz_icon" style="width: 100%; height: 100%;"/>
+          <a class="logo-container" routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <img src="https://github.com/joralmumo/InstacotizaOnlineDlx/blob/main/src/app/static/img/icon.png?raw=true" alt="InstaCotiza" class="logo-img"/>
+            <span class="logo-text">InstaCotiza</span>
           </a>
         </div>
+        
+        <div class="navbar-center navbar-center-visible">
+          <nav class="nav-links">
+            @if (isLoggedIn()) {
+              <a routerLink="/cotizador-r" routerLinkActive="active-nav" class="nav-link">Cotizador</a>
+              <a routerLink="/gestor-cotizaciones" routerLinkActive="active-nav" class="nav-link">Gestor</a>
+              @if (isAdmin()) {
+                <a routerLink="/admin" routerLinkActive="active-nav" class="nav-link">Admin</a>
+              }
+            }
+          </nav>
+        </div>
+
         <div class="navbar-end gap-2">
           @if (isLoggedIn()) {
             <a class="user-profile-link" routerLink="/perfil" routerLinkActive="active">
