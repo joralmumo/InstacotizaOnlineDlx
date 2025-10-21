@@ -64,19 +64,60 @@
   <!-- Sidebar -->
   <div class="drawer-side">
     <label for="sidebar" class="drawer-overlay"></label>
-    <ul class="menu p-4 w-48 min-h-full bg-base-200 text-base-content flex flex-col">
-      <li><a routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">🏠 Home</a></li>
+    <ul class="menu p-4 w-52 min-h-full bg-base-200 text-base-content flex flex-col">
+      <!-- Título del sidebar -->
+      <div class="flex items-center gap-3 px-2 mb-6">
+        <img src="https://github.com/joralmumo/InstacotizaOnlineDlx/blob/main/src/app/static/img/icon.png?raw=true" 
+             alt="InstaCotiza" 
+             class="w-8 h-8 rounded-lg"/>
+        <span class="text-lg font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          InstaCotiza
+        </span>
+      </div>
+
+      <!-- Enlaces del menú con mejor espaciado -->
+      <li class="mb-1">
+        <a routerLink="/home" routerLinkActive="active" class="flex items-center px-3 py-2.5 hover:bg-base-100 rounded-lg">
+          <span class="text-lg mr-2">🏠</span>
+          <span class="font-medium">Home</span>
+        </a>
+      </li>
       @if (isLoggedIn()) {
-        <li><a routerLink="/cotizador-r" routerLinkActive="active" ariaCurrentWhenActive="page">📝 Cotizador</a></li>
-        <li><a routerLink="/gestor-cotizaciones" routerLinkActive="active" ariaCurrentWhenActive="page">📋 Gestor</a></li>
+        <li class="mb-1">
+          <a routerLink="/cotizador-r" routerLinkActive="active" class="flex items-center px-3 py-2.5 hover:bg-base-100 rounded-lg">
+            <span class="text-lg mr-2">📝</span>
+            <span class="font-medium">Cotizador</span>
+          </a>
+        </li>
+        <li class="mb-1">
+          <a routerLink="/gestor-cotizaciones" routerLinkActive="active" class="flex items-center px-3 py-2.5 hover:bg-base-100 rounded-lg">
+            <span class="text-lg mr-2">📋</span>
+            <span class="font-medium">Gestor</span>
+          </a>
+        </li>
       }
       @else {
-        <li><a routerLink="/cotizador" routerLinkActive="active" ariaCurrentWhenActive="page">📝 Cotizador</a></li>
+        <li class="mb-1">
+          <a routerLink="/cotizador" routerLinkActive="active" class="flex items-center px-3 py-2.5 hover:bg-base-100 rounded-lg">
+            <span class="text-lg mr-2">📝</span>
+            <span class="font-medium">Cotizador</span>
+          </a>
+        </li>
       }
       @if (isLoggedIn() && isAdmin()) {
-        <li><a routerLink="/admin" routerLinkActive="active" ariaCurrentWhenActive="page">⚙️ Admin</a></li>
+        <li class="mb-1">
+          <a routerLink="/admin" routerLinkActive="active" class="flex items-center px-3 py-2.5 hover:bg-base-100 rounded-lg">
+            <span class="text-lg mr-2">⚙️</span>
+            <span class="font-medium">Admin</span>
+          </a>
+        </li>
       }
-      <li><a routerLink="/acerca-de" routerLinkActive="active" ariaCurrentWhenActive="page">ℹ️ Acerca de</a></li>
+      <li class="mb-1">
+        <a routerLink="/acerca-de" routerLinkActive="active" class="flex items-center px-3 py-2.5 hover:bg-base-100 rounded-lg">
+          <span class="text-lg mr-2">ℹ️</span>
+          <span class="font-medium">Acerca de</span>
+        </a>
+      </li>
       
       <!-- Separador y botón de cerrar sesión -->
       @if (isLoggedIn()) {

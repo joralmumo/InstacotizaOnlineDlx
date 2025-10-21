@@ -257,10 +257,12 @@
   font-weight: 600 !important;
   transition: none !important;
   pointer-events: auto !important;
+  border-radius: 0.6rem !important;
+  padding: 0.5rem 1rem !important;
 }
 
 .logout-btn:hover {
-  background: oklch(69% 0.17 162.48) !important;
+  background: oklch(64% 0.19 162.48) !important;
   color: white !important;
   transform: none !important;
 }
@@ -278,13 +280,17 @@
 
 /* Iconos en el menú con espacio */
 .menu li a {
-  gap: 0.75rem;
-  border-radius: 0.5rem;
   transition: all 0.2s ease;
 }
 
 .menu li a:hover {
   transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.menu li a.active {
+  background: oklch(69% 0.17 162.48);
+  color: white;
 }
 
 /* Quitar hover del botón de logout */
