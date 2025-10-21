@@ -67,24 +67,32 @@
               <th>Obra</th>
               <th>Fecha</th>
               <th>Creada</th>
+              <th>Productos</th>
               <th>Total</th>
               <th class="actions-col">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            @for (cotizacion of cotizaciones; track cotizacion._id; let i = $index) {
+            @for (cotizacion of cotizaciones; track cotizacion.nro_cotizacion; let i = $index) {
               <tr class="table-row">
                 <td>
                   <span class="badge-numero">{{ cotizacion.nro_cotizacion }}</span>
                 </td>
                 <td class="cliente-cell">{{ cotizacion.nombre_cliente }}</td>
                 <td class="obra-cell">{{ cotizacion.obra_cliente }}</td>
-                <td>{{ formatearFecha(cotizacion.fecha) }}</td>
-                <td class="fecha-creacion">{{ formatearFecha(cotizacion.fecha_creacion) }}</td>
+                <td>{{ cotizacion.fecha }}</td>
+                <td class="fecha-creacion">{{ cotizacion.fecha_creacion }}</td>
+                <td>{{ cotizacion.productos.length }}</td>
                 <td class="total-cell">
-                  <strong>{{ calcularTotalCotizacion(cotizacion.productos, cotizacion.moneda) }}</strong>
+                  <strong>{{ calcularTotalCotizacion(cotizacion.productos, cotizacion.moneda ?? 'CLP') }}</strong>
                 </td>
                 <td class="actions-cell">
+                  <button
+                    class="btn btn-primary"
+                    (click)="cargarCotizacion(cotizacion, $index)"
+                    title="Cargar Cotizacion">
+                    Cargar Cotizacion
+                  </button>
                   <button 
                     class="btn-delete" 
                     (click)="eliminarCotizacion(cotizacion, i)"
