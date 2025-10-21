@@ -330,6 +330,17 @@
 
 .actions-cell {
   text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.actions-cell button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
 }
 
 .btn-delete {
@@ -348,6 +359,34 @@
   color: white;
   transform: scale(1.1);
   box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+}
+
+/* Botón de cargar cotización */
+.btn-load {
+  padding: 0.5rem 0.75rem;
+  background: oklch(0.95 0.05 280);
+  color: oklch(0.5 0.2 280);
+  border: 1px solid oklch(0.8 0.1 280);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: max-content;
+}
+
+.btn-load:hover {
+  background: oklch(0.6 0.2 280);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.btn-load:active {
+  transform: scale(1);
 }
 
 /* ===== RESPONSIVE ===== */
