@@ -1,9 +1,25 @@
 import { Component, inject, Inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Document, Paragraph, TextRun, Table, TableRow, TableCell, AlignmentType, 
-         HeadingLevel, WidthType, PageOrientation, convertInchesToTwip,BorderStyle, 
-         ShadingType, UnderlineType, Header} from 'docx';
+import {
+  Document,
+  Paragraph,
+  TextRun,
+  Table,
+  TableRow,
+  TableCell,
+  AlignmentType,
+  HeadingLevel,
+  WidthType,
+  PageOrientation,
+  convertInchesToTwip,
+  BorderStyle,
+  ShadingType,
+  UnderlineType,
+  Header,
+  Footer,
+  ImageRun
+} from 'docx';
 import { saveAs } from 'file-saver';
 import { DecimalPipe } from '@angular/common';
 import { jsPDF } from 'jspdf';
@@ -354,7 +370,7 @@ export class CotizadorComponent {
 
   // FUNCION PARA GENERAR DOCX!!
 
-  generar_doc() {
+  async generar_doc() {
     console.log('Generando DOC...');
     console.log('Form valid:', this.form.valid);
     console.log('Form errors:', this.form.errors);
@@ -383,24 +399,35 @@ export class CotizadorComponent {
     });
     if (this.form.valid) {
       const formData = this.form.value;
-      this.createWordDocument(formData);
+      await this.createWordDocument(formData);
     } else {
       console.log('Formulario inválido');
       alert('Por favor, complete todos los campos requeridos.');
     }
   }
 
-  private createWordDocument(data: any) {
+  private async createWordDocument(data: any) {
+    // pre-procesar logo si existe (File -> ArrayBuffer)
+    let logoBuffer: ArrayBuffer | null = null;
+    try {
+      if (data.logo && typeof (data.logo as any).arrayBuffer === 'function') {
+        logoBuffer = await (data.logo as File).arrayBuffer();
+      }
+    } catch (e) {
+      console.warn('No se pudo leer logo como ArrayBuffer:', e);
+      logoBuffer = null;
+    }
+
     const doc = new Document({
       styles: {
-        default:{
-          document:{
-            run:{
-              font: "Arial",
-              size: 22,
+        default: {
+          document: {
+            run: {
+              font: 'Aptos',
+              size: 20 // equivale aprox 10pt (docx usa half-points)
             },
-            paragraph:{
-              spacing: { after: 120}
+            paragraph: {
+              spacing: { after: 120 }
             }
           }
         }
@@ -420,8 +447,10 @@ export class CotizadorComponent {
                 bottom: convertInchesToTwip(0.8),
                 left: convertInchesToTwip(0.75),
               },
-            },
+            }
           },
+
+          // Header con tabla: info empresa (izquierda) + logo (derecha)
           headers: {
             default: new Header({
               children: [
@@ -436,103 +465,124 @@ export class CotizadorComponent {
                                 new TextRun({
                                   text: data.nombre_empresa || '',
                                   bold: true,
-                                  size: 20,
-                                }),
-                              ],
+                                  size: 20
+                                })
+                              ]
                             }),
                             new Paragraph(`RUT: ${data.rut_empresa || ''}`),
                             new Paragraph(`Tel: ${data.telefono_empresa || ''}`),
                             new Paragraph(`Email: ${data.email_empresa || ''}`),
-                            new Paragraph(
-                              `Dirección: ${data.direccion_empresa || ''}`
-                            ),
+                            new Paragraph(`Dirección: ${data.direccion_empresa || ''}`),
                           ],
                           width: { size: 60, type: WidthType.PERCENTAGE },
-                          borders: {
-                            top: { style: 'none' },
-                            bottom: { style: 'none' },
-                            left: { style: 'none' },
-                            right: { style: 'none' },
+                          borders: { //cuchufleta, bordes blancos
+                            top: { style: BorderStyle.SINGLE, size: 1, color: "FFFFFF"  },
+                            bottom: { style: BorderStyle.SINGLE, size: 1, color: "FFFFFF"  },
+                            left: { style: BorderStyle.SINGLE, size: 1, color: "FFFFFF"  },
+                            right: { style: BorderStyle.SINGLE, size: 1, color: "FFFFFF"  },
                           },
                         }),
                         new TableCell({
-                          children: [new Paragraph('')],
+                          children: [
+                            // si hay logo, inserta imagen; sino espacio vacío
+                            logoBuffer
+                              ? new Paragraph({
+                                  children: [
+                                    // convierto arraybuffer a unit8array y casteo any para que no haya problemas con el tipeado de docx
+                                    new ImageRun(({ data: new Uint8Array(logoBuffer), transformation: { width: 115, height: 59 } } as any))
+                                  ],
+                                  alignment: AlignmentType.RIGHT
+                                })
+                              : new Paragraph({ text: '' })
+                          ],
                           width: { size: 40, type: WidthType.PERCENTAGE },
                           borders: {
-                            top: { style: 'none' },
-                            bottom: { style: 'none' },
-                            left: { style: 'none' },
-                            right: { style: 'none' },
-                          },
-                        }),
-                      ],
-                    }),
+                            top: { style: BorderStyle.SINGLE, size: 1, color: "FFFFFF" },
+                            bottom: { style: BorderStyle.SINGLE, size: 1, color: "FFFFFF"  },
+                            left: { style: BorderStyle.SINGLE, size: 1, color: "FFFFFF"  },
+                            right: { style: BorderStyle.SINGLE, size: 1, color: "FFFFFF"  },
+                          }
+                        })
+                      ]
+                    })
                   ],
-                  width: { size: 100, type: WidthType.PERCENTAGE },
-                }),
-              ],
-            }),
+                  width: { size: 100, type: WidthType.PERCENTAGE }
+                })
+              ]
+            })
+          },
+
+          // Footer con linea centrada similar a WinForms
+          footers: {
+            default: new Footer({
+              children: [
+                new Paragraph({
+                  children: [
+                    new TextRun({ text: `${data.nombre_empresa || ''} - ${data.rut_empresa || ''}`, italics: true }),
+                    new TextRun({ text: '\n' }),
+                    new TextRun({ text: `${data.email_empresa || ''} - ${data.telefono_empresa || ''}` })
+                  ],
+                  alignment: AlignmentType.CENTER,
+                  spacing: { before: 100 }
+                })
+              ]
+            })
           },
 
           children: [
-            // Espaciado después del encabezado
-            new Paragraph({ text: '', spacing: { after: 400 } }),
+            // Espacio para que el header no solape 
+            // new Paragraph({ text: '', spacing: { after: 400 } }),
 
-            // Título principal centrado
+            // TÍTULO principal
             new Paragraph({
               children: [
                 new TextRun({
                   text: `Cotización N°${data.nro_cotizacion || ''}`,
                   bold: true,
-                  size: 28,
-                }),
+                  size: 28
+                })
               ],
               alignment: AlignmentType.CENTER,
-              spacing: { after: 200 },
+              spacing: { after: 200 }
             }),
 
             // Línea separadora
             new Paragraph({
-              children: [new TextRun({ text: '________________________', size: 20 })],
+              children: [new TextRun({ text: '____________________________', size: 20 })],
               alignment: AlignmentType.CENTER,
-              spacing: { after: 200 },
+              spacing: { after: 200 }
             }),
 
             // Subtítulo
             new Paragraph({
               children: [
-                new TextRun({
-                  text: 'Oferta Comercial',
-                  bold: true,
-                  italics: true,
-                  size: 20,
-                }),
+                new TextRun({ text: 'Oferta Comercial', bold: true, italics: true, size: 20 })
               ],
               alignment: AlignmentType.CENTER,
-              spacing: { after: 400 },
+              spacing: { after: 400 }
             }),
 
-            // Tabla de información del cliente
+            // Tabla info cliente
             this.tablaInfoCliente(data),
 
             new Paragraph({ text: '', spacing: { after: 400 } }),
 
-            // Productos
-            this.tablaProductos(data.productos, data.moneda),
+            // Tabla productos (usa valores y estilos)
+            this.tablaProductos(data.productos || [], data.moneda),
 
             new Paragraph({ text: '', spacing: { after: 400 } }),
 
-            // Resumen de precios
-            this.ResumenPrecios(data.productos, data.moneda),
+            // Resumen precios alineado a la derecha
+            this.ResumenPrecios(data.productos || [], data.moneda),
 
             new Paragraph({ text: '', spacing: { after: 400 } }),
 
-            // Condiciones
+            // Condiciones Comerciales
             new Paragraph({
               children: [
-                new TextRun({ text: 'Condiciones Comerciales', bold: true, size: 22 }),
+                new TextRun({ text: 'Condiciones Comerciales', bold: true, size: 22 })
               ],
-              spacing: { after: 200 },
+              spacing: { after: 200 }
             }),
 
             new Paragraph({
@@ -543,83 +593,82 @@ export class CotizadorComponent {
                 new TextRun('\n'),
                 new TextRun(`Forma de Pago: ${data.forma_pago || ''}`),
                 new TextRun('\n'),
-                new TextRun(
-                  `El presupuesto incluye: ${data.presupuesto_incluye || ''}`
-                ),
-              ],
-            }),
-          ],
-        },
-      ],
+                new TextRun(`El presupuesto incluye: ${data.presupuesto_incluye || ''}`)
+              ]
+            })
+          ]
+        }
+      ]
     });
 
-    this.descargarDoc(doc);
+    this.descargarDoc(doc)
   }
 
+
   private tablaInfoCliente(data: any): Table {
+    const azulClaro = "DCE6F1";
+
     return new Table({
       rows: [
         new TableRow({
           children: [
             new TableCell({
-              children: [new Paragraph({ 
-                children: [new TextRun({ text: "Fecha", bold: true })] })],
+              children: [new Paragraph({ children: [new TextRun({ text: "Fecha", bold: true })] })],
               width: { size: 30, type: WidthType.PERCENTAGE },
+              shading: { type: ShadingType.CLEAR, color: "auto", fill: azulClaro },
+              borders: {
+                bottom: { style: BorderStyle.SINGLE, size: 6, color: "4472C4" }
+              }
             }),
             new TableCell({
               children: [new Paragraph(data.fecha || '')],
-              width: { size: 70, type: WidthType.PERCENTAGE },
+              width: { size: 70, type: WidthType.PERCENTAGE }
             })
           ]
         }),
         new TableRow({
           children: [
             new TableCell({
-              children: [new Paragraph({ children: [new TextRun({ text: "Cliente", bold: true })] })]
+              children: [new Paragraph({ children: [new TextRun({ text: "Cliente", bold: true })] })],
+              shading: { type: ShadingType.CLEAR, color: "auto", fill: azulClaro }
             }),
-            new TableCell({
-              children: [new Paragraph(data.nombre_cliente || '')]
-            })
+            new TableCell({ children: [new Paragraph(data.nombre_cliente || '')] })
           ]
         }),
         new TableRow({
           children: [
             new TableCell({
-              children: [new Paragraph({ children: [new TextRun({ text: "Contacto", bold: true })] })]
+              children: [new Paragraph({ children: [new TextRun({ text: "Contacto", bold: true })] })],
+              shading: { type: ShadingType.CLEAR, color: "auto", fill: azulClaro }
             }),
-            new TableCell({
-              children: [new Paragraph(data.contacto_cliente || '')]
-            })
+            new TableCell({ children: [new Paragraph(data.contacto_cliente || '')] })
           ]
         }),
         new TableRow({
           children: [
             new TableCell({
-              children: [new Paragraph({ children: [new TextRun({ text: "Obra", bold: true })] })]
+              children: [new Paragraph({ children: [new TextRun({ text: "Obra", bold: true })] })],
+              shading: { type: ShadingType.CLEAR, color: "auto", fill: azulClaro }
             }),
-            new TableCell({
-              children: [new Paragraph(data.obra_cliente || '')]
-            })
+            new TableCell({ children: [new Paragraph(data.obra_cliente || '')] })
           ]
         }),
         new TableRow({
           children: [
             new TableCell({
-              children: [new Paragraph({ children: [new TextRun({ text: "Dirección Obra", bold: true })] })]
+              children: [new Paragraph({ children: [new TextRun({ text: "Dirección Obra", bold: true })] })],
+              shading: { type: ShadingType.CLEAR, color: "auto", fill: azulClaro }
             }),
-            new TableCell({
-              children: [new Paragraph(data.direccion_cliente || '')]
-            })
+            new TableCell({ children: [new Paragraph(data.direccion_cliente || '')] })
           ]
         }),
         new TableRow({
           children: [
             new TableCell({
-              children: [new Paragraph({ children: [new TextRun({ text: "Email", bold: true })] })]
+              children: [new Paragraph({ children: [new TextRun({ text: "Email", bold: true })] })],
+              shading: { type: ShadingType.CLEAR, color: "auto", fill: azulClaro }
             }),
-            new TableCell({
-              children: [new Paragraph(data.email_cliente || '')]
-            })
+            new TableCell({ children: [new Paragraph(data.email_cliente || '')] })
           ]
         })
       ],
@@ -629,118 +678,92 @@ export class CotizadorComponent {
         bottom: { style: BorderStyle.SINGLE, size: 4, color: "4472C4" },
         left: { style: BorderStyle.SINGLE, size: 4, color: "4472C4" },
         right: { style: BorderStyle.SINGLE, size: 4, color: "4472C4" },
-        insideHorizontal: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" },
-        insideVertical: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" }        
+        insideHorizontal: { style: BorderStyle.SINGLE, size: 1, color: "4472C4" },
+        insideVertical: { style: BorderStyle.SINGLE, size: 1, color: "4472C4" }
       }
     });
   }
+
+
 
   private tablaProductos(productos: any[], moneda: string): Table {
     const headerRow = new TableRow({
       children: [
         new TableCell({
-          children: [new Paragraph({
-            children: [new TextRun({ text: "ÍTEM", bold: true })],
-            alignment: AlignmentType.CENTER
-          })],
-          width: { size: 8, type: WidthType.PERCENTAGE }
+          children: [new Paragraph({ children: [new TextRun({ text: "ÍTEM", bold: true })], alignment: AlignmentType.CENTER })],
+          width: { size: 6, type: WidthType.PERCENTAGE },
+          shading: { type: ShadingType.CLEAR, color: "auto", fill: "DCE6F1" }
         }),
         new TableCell({
-          children: [new Paragraph({
-            children: [new TextRun({ text: "PRODUCTO", bold: true })],
-            alignment: AlignmentType.CENTER
-          })],
-          width: { size: 20, type: WidthType.PERCENTAGE }
+          children: [new Paragraph({ children: [new TextRun({ text: "PRODUCTO", bold: true })], alignment: AlignmentType.CENTER })],
+          width: { size: 12, type: WidthType.PERCENTAGE },
+          shading: { type: ShadingType.CLEAR, color: "auto", fill: "DCE6F1" }
         }),
         new TableCell({
-          children: [new Paragraph({
-            children: [new TextRun({ text: "DESCRIPCIÓN", bold: true })],
-            alignment: AlignmentType.CENTER
-          })],
-          width: { size: 35, type: WidthType.PERCENTAGE }
+          children: [new Paragraph({ children: [new TextRun({ text: "DESCRIPCIÓN", bold: true })], alignment: AlignmentType.CENTER })],
+          width: { size: 42, type: WidthType.PERCENTAGE },
+          shading: { type: ShadingType.CLEAR, color: "auto", fill: "DCE6F1" }
         }),
         new TableCell({
-          children: [new Paragraph({
-            children: [new TextRun({ text: "UNID.", bold: true })],
-            alignment: AlignmentType.CENTER
-          })],
-          width: { size: 8, type: WidthType.PERCENTAGE }
+          children: [new Paragraph({ children: [new TextRun({ text: "UNID.", bold: true })], alignment: AlignmentType.CENTER })],
+          width: { size: 7, type: WidthType.PERCENTAGE },
+          shading: { type: ShadingType.CLEAR, color: "auto", fill: "DCE6F1" }
         }),
         new TableCell({
-          children: [new Paragraph({
-            children: [new TextRun({ text: "CANT.", bold: true })],
-            alignment: AlignmentType.CENTER
-          })],
-          width: { size: 8, type: WidthType.PERCENTAGE }
+          children: [new Paragraph({ children: [new TextRun({ text: "CANT.", bold: true })], alignment: AlignmentType.CENTER })],
+          width: { size: 7, type: WidthType.PERCENTAGE },
+          shading: { type: ShadingType.CLEAR, color: "auto", fill: "DCE6F1" }
         }),
         new TableCell({
-          children: [new Paragraph({
-            children: [new TextRun({ text: "VALOR UNIT.", bold: true })],
-            alignment: AlignmentType.CENTER
-          })],
-          width: { size: 12, type: WidthType.PERCENTAGE }
+          children: [new Paragraph({ children: [new TextRun({ text: "VALOR UNIT.", bold: true })], alignment: AlignmentType.CENTER })],
+          width: { size: 13, type: WidthType.PERCENTAGE },
+          shading: { type: ShadingType.CLEAR, color: "auto", fill: "DCE6F1" }
         }),
         new TableCell({
-          children: [new Paragraph({
-            children: [new TextRun({ text: "TOTAL", bold: true })],
-            alignment: AlignmentType.CENTER
-          })],
-          width: { size: 9, type: WidthType.PERCENTAGE }
+          children: [new Paragraph({ children: [new TextRun({ text: "TOTAL", bold: true })], alignment: AlignmentType.CENTER })],
+          width: { size: 13, type: WidthType.PERCENTAGE },
+          shading: { type: ShadingType.CLEAR, color: "auto", fill: "DCE6F1" }
         })
-      ]
+      ],
+      tableHeader: true,
     });
 
-    const productRows = productos.map((producto, index) => {
+    const productRows = (productos || []).map((producto, index) => {
       const total = (producto.cantidad || 0) * (producto.valorUnitario || 0);
       return new TableRow({
         children: [
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun((index + 1).toString())],
-              alignment: AlignmentType.CENTER
-            })]
-          }),
-          new TableCell({
-            children: [new Paragraph(producto.producto || '')]
-          }),
-          new TableCell({
-            children: [new Paragraph(producto.descripcion || '')]
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun(producto.unidad || '')],
-              alignment: AlignmentType.CENTER
-            })]
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun((producto.cantidad || 0).toString())],
-              alignment: AlignmentType.CENTER
-            })]
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun(this.formatoMoneda(producto.valorUnitario || 0, moneda))],
-              alignment: AlignmentType.RIGHT
-            })]
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun(this.formatoMoneda(total, moneda))],
-              alignment: AlignmentType.RIGHT
-            })]
-          })
+          new TableCell({ children: [new Paragraph({ children: [new TextRun(String(index + 1))], alignment: AlignmentType.CENTER })] }),
+          new TableCell({ children: [new Paragraph(producto.producto || '')] }),
+          new TableCell({ children: [new Paragraph(producto.descripcion || '')] }),
+          new TableCell({ children: [new Paragraph({ children: [new TextRun(producto.unidad || '')], alignment: AlignmentType.CENTER })] }),
+          new TableCell({ children: [new Paragraph({ children: [new TextRun(String(producto.cantidad || 0))], alignment: AlignmentType.CENTER })] }),
+          new TableCell({ children: [new Paragraph({ children: [new TextRun(this.formatoMoneda(producto.valorUnitario || 0, moneda))], alignment: AlignmentType.RIGHT })] }),
+          new TableCell({ children: [new Paragraph({ children: [new TextRun(this.formatoMoneda(total, moneda))], alignment: AlignmentType.RIGHT })] })
         ]
       });
     });
 
-    return new Table({
+    const table = new Table({
       rows: [headerRow, ...productRows],
-      width: { size: 100, type: WidthType.PERCENTAGE }
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      borders: {
+        top: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" },
+        bottom: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" },
+        left: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" },
+        right: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" },
+        insideHorizontal: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" },
+        insideVertical: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" }
+      }
     });
+
+    return table;
   }
 
+
+
   private ResumenPrecios(productos: any[], moneda: string): Table {
+    const azulClaro = "DCE6F1";
+
     const subtotal = this.getSubtotal();
     const iva = this.getIVA();
     const total = this.getTotalCotizacion();
@@ -750,51 +773,36 @@ export class CotizadorComponent {
         new TableRow({
           children: [
             new TableCell({
-              children: [new Paragraph({
-                children: [new TextRun({ text: "NETO", bold: true })],
-                alignment: AlignmentType.RIGHT
-              })],
-              width: { size: 30, type: WidthType.PERCENTAGE }
+              children: [new Paragraph({ children: [new TextRun({ text: "NETO", bold: true })], alignment: AlignmentType.RIGHT })],
+              width: { size: 40, type: WidthType.PERCENTAGE },
+              shading: { type: ShadingType.CLEAR, color: "auto", fill: azulClaro }
             }),
             new TableCell({
-              children: [new Paragraph({
-                children: [new TextRun(this.formatoMoneda(subtotal, moneda))],
-                alignment: AlignmentType.RIGHT
-              })],
-              width: { size: 70, type: WidthType.PERCENTAGE }
+              children: [new Paragraph({ children: [new TextRun(this.formatoMoneda(subtotal, moneda))], alignment: AlignmentType.RIGHT })],
+              width: { size: 60, type: WidthType.PERCENTAGE }
             })
           ]
         }),
         new TableRow({
           children: [
             new TableCell({
-              children: [new Paragraph({
-                children: [new TextRun({ text: "IVA (19%):", bold: true })],
-                alignment: AlignmentType.RIGHT
-              })]
+              children: [new Paragraph({ children: [new TextRun({ text: "IVA (19%):", bold: true })], alignment: AlignmentType.RIGHT })],
+              shading: { type: ShadingType.CLEAR, color: "auto", fill: azulClaro }
             }),
             new TableCell({
-              children: [new Paragraph({
-                children: [new TextRun(this.formatoMoneda(iva, moneda))],
-                alignment: AlignmentType.RIGHT
-              })]
+              children: [new Paragraph({ children: [new TextRun(this.formatoMoneda(iva, moneda))], alignment: AlignmentType.RIGHT })]
             })
           ]
         }),
         new TableRow({
           children: [
             new TableCell({
-              children: [new Paragraph({
-                children: [new TextRun({ text: "TOTAL", bold: true })],
-                alignment: AlignmentType.RIGHT
-              })]
+              children: [new Paragraph({ children: [new TextRun({ text: "TOTAL", bold: true })], alignment: AlignmentType.RIGHT })],
+              shading: { type: ShadingType.CLEAR, color: "auto", fill: azulClaro }
             }),
             new TableCell({
               children: [new Paragraph({
-                children: [new TextRun({ 
-                  text: this.formatoMoneda(total, moneda), 
-                  bold: true 
-                })],
+                children: [new TextRun({ text: this.formatoMoneda(total, moneda), bold: true })],
                 alignment: AlignmentType.RIGHT
               })]
             })
@@ -802,9 +810,19 @@ export class CotizadorComponent {
         })
       ],
       width: { size: 50, type: WidthType.PERCENTAGE },
-      alignment: AlignmentType.RIGHT
+      alignment: AlignmentType.RIGHT,
+      borders: {
+        top: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" },
+        bottom: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" },
+        left: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" },
+        right: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" },
+        insideHorizontal: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" },
+        insideVertical: { style: BorderStyle.SINGLE, size: 1, color: "D9D9D9" }
+      }
     });
   }
+
+
 
   private formatoMoneda(amount: number, currency: string): string {
     const formatter = new Intl.NumberFormat('es-CL', {
@@ -829,252 +847,6 @@ export class CotizadorComponent {
     });
   }
 
-  // FUNCIÓN PARA GENERAR PDF!!
-  generar_pdf() {
-    console.log('Generando PDF...');
-    
-    if (this.form.valid) {
-      const formData = this.form.value;
-      this.createPDFDocument(formData);
-    } else {
-      console.log('Formulario inválido');
-      alert('Por favor, complete todos los campos requeridos.');
-    }
-  }
 
-  private createPDFDocument(data: any) {
-    // Crear documento PDF en tamaño carta
-    const doc = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'letter' // 8.5" x 11"
-    });
-
-    // Configurar fuente
-    doc.setFont('helvetica');
-    
-    let currentY = 20; // Posición Y inicial
-
-    // ENCABEZADO DE LA EMPRESA (esquina superior izquierda)
-    this.addEmpresaHeader(doc, data, currentY);
-    currentY += 40;
-
-    // TÍTULO PRINCIPAL CENTRADO
-    currentY = this.addTituloPrincipal(doc, data, currentY);
-    currentY += 15;
-
-    // TABLA DE INFORMACIÓN DEL CLIENTE
-    currentY = this.addTablaCliente(doc, data, currentY);
-    currentY += 20;
-
-    // TABLA DE PRODUCTOS
-    currentY = this.addTablaProductos(doc, data, currentY);
-    currentY += 15;
-
-    // RESUMEN FINANCIERO
-    currentY = this.addResumenFinanciero(doc, data, currentY);
-    currentY += 15;
-
-    // CONDICIONES COMERCIALES
-    this.addCondicionesComerciales(doc, data, currentY);
-
-    // Descargar PDF
-    this.descargarPDF(doc, data);
-  }
-
-  private addEmpresaHeader(doc: jsPDF, data: any, startY: number) {
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    doc.text(data.nombre_empresa || '', 20, startY);
-    
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`RUT: ${data.rut_empresa || ''}`, 20, startY + 6);
-    doc.text(`Tel: ${data.telefono_empresa || ''}`, 20, startY + 12);
-    doc.text(`Email: ${data.email_empresa || ''}`, 20, startY + 18);
-    doc.text(`Dirección: ${data.direccion_empresa || ''}`, 20, startY + 24);
-  }
-
-  private addTituloPrincipal(doc: jsPDF, data: any, startY: number): number {
-    // Título principal
-    doc.setFontSize(20);
-    doc.setFont('helvetica', 'bold');
-    const titulo = `Cotización N°${data.nro_cotizacion || ''}`;
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const titleWidth = doc.getTextWidth(titulo);
-    doc.text(titulo, (pageWidth - titleWidth) / 2, startY);
-
-    // Línea separadora
-    doc.setFontSize(14);
-    const linea = '________________________';
-    const lineWidth = doc.getTextWidth(linea);
-    doc.text(linea, (pageWidth - lineWidth) / 2, startY + 8);
-
-    // Subtítulo "Oferta Comercial"
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bolditalic');
-    const subtitulo = 'Oferta Comercial';
-    const subtitleWidth = doc.getTextWidth(subtitulo);
-    doc.text(subtitulo, (pageWidth - subtitleWidth) / 2, startY + 16);
-
-    return startY + 25;
-  }
-
-  private addTablaCliente(doc: jsPDF, data: any, startY: number): number {
-    const clienteData = [
-      ['Fecha', data.fecha || ''],
-      ['Cliente', data.nombre_cliente || ''],
-      ['Contacto', data.contacto_cliente || ''],
-      ['Obra', data.obra_cliente || ''],
-      ['Dirección Obra', data.direccion_cliente || ''],
-      ['Email', data.email_cliente || '']
-    ];
-
-    autoTable(doc,{
-      startY: startY,
-      head: [],
-      body: clienteData,
-      theme: 'grid',
-      styles: {
-        fontSize: 10,
-        cellPadding: 3
-      },
-      columnStyles: {
-        0: { 
-          fontStyle: 'bold', 
-          fillColor: [68, 114, 196], // Color azul profesional
-          textColor: [255, 255, 255],
-          cellWidth: 50
-        },
-        1: { 
-          fillColor: [248, 249, 250], // Gris claro
-          cellWidth: 120 
-        }
-      },
-      margin: { left: 20, right: 20 }
-    });
-
-    return (doc as any).lastAutoTable.finalY;
-  }
-
-  private addTablaProductos(doc: jsPDF, data: any, startY: number): number {
-    // Preparar datos de productos
-    const productosData = data.productos.map((producto: any, index: number) => {
-      const total = (producto.cantidad || 0) * (producto.valorUnitario || 0);
-      return [
-        (index + 1).toString(),
-        producto.producto || '',
-        producto.descripcion || '',
-        producto.unidad || '',
-        (producto.cantidad || 0).toString(),
-        this.formatoMoneda(producto.valorUnitario || 0, data.moneda),
-        this.formatoMoneda(total, data.moneda)
-      ];
-    });
-
-    autoTable(doc,{
-      startY: startY,
-      head: [['ÍTEM', 'PRODUCTO', 'DESCRIPCIÓN', 'UNID.', 'CANT.', 'VALOR UNIT.', 'TOTAL']],
-      body: productosData,
-      theme: 'grid',
-      styles: {
-        fontSize: 9,
-        cellPadding: 2
-      },
-      headStyles: {
-        fillColor: [47, 85, 151], // Azul oscuro profesional
-        textColor: [255, 255, 255],
-        fontStyle: 'bold',
-        halign: 'center'
-      },
-      columnStyles: {
-        0: { cellWidth: 15, halign: 'center' }, // ÍTEM
-        1: { cellWidth: 35 }, // PRODUCTO
-        2: { cellWidth: 60 }, // DESCRIPCIÓN
-        3: { cellWidth: 20, halign: 'center' }, // UNID.
-        4: { cellWidth: 20, halign: 'center' }, // CANT.
-        5: { cellWidth: 25, halign: 'right' }, // VALOR UNIT.
-        6: { cellWidth: 25, halign: 'right' } // TOTAL
-      },
-      alternateRowStyles: {
-        fillColor: [248, 249, 250] // Filas alternas en gris claro
-      },
-      margin: { left: 20, right: 20 }
-    });
-
-    return (doc as any).lastAutoTable.finalY;
-  }
-
-  private addResumenFinanciero(doc: jsPDF, data: any, startY: number): number {
-    const subtotal = this.getSubtotal();
-    const iva = this.getIVA();
-    const total = this.getTotalCotizacion();
-
-    const resumenData = [
-      ['SUBTOTAL (NETO)', this.formatoMoneda(subtotal, data.moneda)],
-      ['IVA (19%)', this.formatoMoneda(iva, data.moneda)],
-      ['TOTAL', this.formatoMoneda(total, data.moneda)]
-    ];
-
-    autoTable(doc,{
-      startY: startY,
-      head: [],
-      body: resumenData,
-      theme: 'grid',
-      styles: {
-        fontSize: 12,
-        cellPadding: 4,
-        fontStyle: 'bold'
-      },
-      columnStyles: {
-        0: { 
-          halign: 'right',
-          cellWidth: 50
-        },
-        1: { 
-          halign: 'right',
-          cellWidth: 40
-        }
-      },
-      // Estilo especial para la fila del total
-      didParseCell: function (data: any) {
-        if (data.row.index === 2) { // Fila del TOTAL
-          data.cell.styles.fillColor = [47, 85, 151];
-          data.cell.styles.textColor = [255, 255, 255];
-        }
-      },
-      margin: { left: 130 } // Alinear a la derecha
-    });
-
-    return (doc as any).lastAutoTable.finalY;
-  }
-
-  private addCondicionesComerciales(doc: jsPDF, data: any, startY: number) {
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Condiciones Comerciales', 20, startY);
-
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'normal');
-    
-    const condiciones = [
-      'Valores netos. No Incluyen IVA.',
-      `Validez Oferta: ${data.validez_oferta || ''}`,
-      `Forma de Pago: ${data.forma_pago || ''}`,
-      `El presupuesto incluye: ${data.presupuesto_incluye || ''}`
-    ];
-
-    let yPos = startY + 8;
-    condiciones.forEach(condicion => {
-      doc.text(condicion, 20, yPos);
-      yPos += 6;
-    });
-  }
-
-  private descargarPDF(doc: jsPDF, data: any) {
-    const fileName = `nro.${data.nro_cotizacion}_${data.nombre_cliente}_${data.obra_cliente}.pdf`;
-    doc.save(fileName);
-    console.log('PDF generado exitosamente');
-  }
 
 }
