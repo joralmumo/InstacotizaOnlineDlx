@@ -41,6 +41,10 @@ export class ApicrudService{
         return this.http.post(`${environment.apiUrl}/usuarios/${userId}/cotizaciones`, cotizacion);
     }
 
+    actualizarCotizacionPorNumero(userId: string, cotizacion: ICotizacion): Observable<any> {
+        return this.http.put(`${environment.apiUrl}/usuarios/${userId}/cotizaciones-numero`, cotizacion);
+    }
+
     eliminarCotizacion(userId: string, cotizacionIndex: number): Observable<any> {
         return this.http.delete(`${environment.apiUrl}/usuarios/${userId}/cotizaciones/${cotizacionIndex}`);
     }

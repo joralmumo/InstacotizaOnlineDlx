@@ -250,6 +250,82 @@ export class CotizadorRComponent implements OnInit, OnDestroy{
     });
   }
 
+  // Método para sobreescribir/actualizar una cotización existente
+  sobreescribirCotizacion() {
+    console.log('Sobreescribiendo cotización en la base de datos...');
+    
+    if (this.form.valid) {
+      const formData = this.form.value;
+      const userId = sessionStorage.getItem('id');
+
+      if (!userId) {
+        alert('No se encontró usuario logueado. Por favor, inicie sesión nuevamente.');
+        return;
+      }
+
+      if (!formData.nro_cotizacion) {
+        alert('Debe especificar un número de cotización para sobreescribir.');
+        return;
+      }
+
+      // Confirmar antes de sobreescribir
+      const confirmar = confirm(
+        `¿Está seguro de que desea sobreescribir la cotización N°${formData.nro_cotizacion}? Esta acción no se puede deshacer.`
+      );
+
+      if (!confirmar) {
+        return;
+      }
+
+      // Crear objeto cotización
+      const cotizacionData: any = {
+        nro_cotizacion: formData.nro_cotizacion,
+        nombre_empresa: formData.nombre_empresa,
+        telefono_empresa: formData.telefono_empresa,
+        rut_empresa: formData.rut_empresa,
+        email_empresa: formData.email_empresa,
+        direccion_empresa: formData.direccion_empresa,
+        nombre_cliente: formData.nombre_cliente,
+        obra_cliente: formData.obra_cliente,
+        contacto_cliente: formData.contacto_cliente,
+        email_cliente: formData.email_cliente,
+        direccion_cliente: formData.direccion_cliente,
+        fecha: formData.fecha,
+        validez_oferta: formData.validez_oferta,
+        forma_pago: formData.forma_pago,
+        presupuesto_incluye: formData.presupuesto_incluye,
+        moneda: formData.moneda,
+        productos: formData.productos
+      };
+
+      // Eliminar logo si existe
+      if (cotizacionData.logo) {
+        delete cotizacionData.logo;
+      }
+
+      // Llamar al servicio para actualizar
+      this.apiCrud.actualizarCotizacionPorNumero(userId, cotizacionData).subscribe({
+        next: (response) => {
+          console.log('Cotización sobreescrita exitosamente:', response);
+          alert(`Cotización N°${formData.nro_cotizacion} sobreescrita exitosamente`);
+          this.limpiarBorrador();
+        },
+        error: (error) => {
+          console.error('Error al sobreescribir la cotización:', error);
+          if (error.status === 404) {
+            alert(`No se encontró la cotización N°${formData.nro_cotizacion}. Verifique el número e intente nuevamente.`);
+          } else {
+            alert('Error al sobreescribir la cotización. Por favor, intente nuevamente.');
+          }
+        }
+      });
+
+    } else {
+      console.log('Formulario inválido - No se puede sobreescribir');
+      alert('Por favor, complete todos los campos antes de sobreescribir la cotización');
+    }
+  }
+
 
   //temporal!! hay que poner la UI que aparezca una lista de las cotizaciones guardadas
   private mostrarListaCotizaciones(cotizaciones: any[]) {
@@ -586,7 +662,6 @@ export class CotizadorRComponent implements OnInit, OnDestroy{
     if (this.form.valid) {
       const formData = this.form.value;
       await this.createWordDocument(formData);
-      this.createWordDocument(formData);
     } else {
       console.log('Formulario inválido');
       alert('Por favor, complete todos los campos requeridos.');
