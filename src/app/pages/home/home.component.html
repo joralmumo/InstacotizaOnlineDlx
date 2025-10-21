@@ -1,10 +1,11 @@
 <div class="min-h-screen bg-base-100">
 
-  <div class="hero min-h-[70vh] bg-gradient-to-br from-primary/10 to-secondary/10">
-    <div class="hero-content text-center">
-      <div class="max-w-md">
-        <h1 class="text-6xl font-bold text-primary mb-4">InstaCotiza</h1>
-        <p class="text-xl mb-8 text-base-content/80">
+  <div class="hero min-h-[70vh] bg-gradient-to-br from-primary/15 to-secondary/15 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-bl from-primary/5 to-secondary/5" style="animation: pulse 3s ease-in-out infinite;"></div>
+    <div class="hero-content text-center relative">
+      <div class="max-w-md slide-in-left">
+        <h1 class="text-6xl font-bold mb-4 bg-gradient-to-br from-primary/100 via-primary/70 to-primary/100 bg-clip-text text-transparent">InstaCotiza</h1>
+        <p class="text-xl mb-8 text-base-content/90 font-medium">
           Genera cotizaciones profesionales en segundos. La herramienta perfecta para tu negocio.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -20,15 +21,70 @@
     </div>
   </div>
 
-
-  <div class="py-20 px-6 bg-base-200">
-    <div class="max-w-6xl mx-auto">
+  <!-- Guía Rápida -->
+  <div class="py-20 px-6 bg-gradient-to-br from-primary/5 to-secondary/5">
+    <div class="max-w-6xl mx-auto animate-on-scroll">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold mb-4">Características Principales</h2>
-        <p class="text-xl text-base-content/70">Todo lo que necesitas para crear cotizaciones profesionales</p>
+        <h2 class="text-4xl font-bold mb-4 text-primary">Guía Rápida</h2>
+        <p class="text-xl text-base-content/80 font-medium">Crea tu primera cotización en minutos</p>
       </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid md:grid-cols-4 gap-6 stagger-animation">
+        <!-- Paso 1 -->
+        <div class="card bg-base-100 shadow hover:shadow-lg transition-all duration-300">
+          <div class="card-body p-6">
+            <div class="text-4xl mb-4">1️⃣</div>
+                        <h3 class="text-lg font-semibold mb-2 flex items-center">Crear Nueva<span class="ml-2">✍</span></h3>
+            <p class="text-base-content/70 text-sm">
+              Haz clic en "Comenzar Ahora" y selecciona una plantilla o comienza desde cero
+            </p>
+          </div>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="card bg-base-100 shadow hover:shadow-lg transition-all duration-300">
+          <div class="card-body p-6">
+            <div class="text-4xl mb-4">2️⃣</div>
+            <h3 class="text-lg font-semibold mb-2 flex items-center">Datos Básicos<span class="ml-2">🗂️</span></h3>
+            <p class="text-base-content/70 text-sm">
+              Ingresa la información de tu empresa y del cliente
+            </p>
+          </div>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="card bg-base-100 shadow hover:shadow-lg transition-all duration-300">
+          <div class="card-body p-6">
+            <div class="text-4xl mb-4">3️⃣</div>
+            <h3 class="text-lg font-semibold mb-2 flex items-center">Agregar Items<span class="ml-2">💾</span></h3>
+            <p class="text-base-content/70 text-sm">
+              Añade productos o servicios con sus precios y cantidades
+            </p>
+          </div>
+        </div>
+
+        <!-- Paso 4 -->
+        <div class="card bg-base-100 shadow hover:shadow-lg transition-all duration-300">
+          <div class="card-body p-6">
+            <div class="text-4xl mb-4">4️⃣</div>
+            <h3 class="text-lg font-semibold mb-2 flex items-center">¡Listo!<span class="ml-2">🎉</span></h3>
+            <p class="text-base-content/70 text-sm">
+              Descarga tu cotización o guárdala en la nube
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="py-20 px-6 bg-base-200">
+    <div class="max-w-6xl mx-auto animate-on-scroll">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 text-secondary">Características Principales</h2>
+        <p class="text-xl text-base-content/80 font-medium">Todo lo que necesitas para crear cotizaciones profesionales</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-animation">
 
         <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
           <div class="card-body text-center">
@@ -41,7 +97,7 @@
             </div>
             <h3 class="text-xl font-bold mb-2">Exportar a PDF</h3>
             <p class="text-base-content/70">
-              Genera documentos PDF profesionales listos para enviar a tus clientes con un solo clic.
+              Genera documentos PDF profesionales listos para enviar a tus clientes con un solo clic. **En progreso.**
             </p>
           </div>
         </div>
@@ -137,12 +193,12 @@
 
 
   <div class="py-20 px-6 bg-primary/5">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-4xl font-bold mb-6">¿Listo para simplificar tus cotizaciones?</h2>
-      <p class="text-xl mb-8 text-base-content/70">
+    <div class="max-w-4xl mx-auto text-center animate-on-scroll">
+      <h2 class="text-4xl font-bold mb-6 bg-gradient-to-r from-secondary via-primary to-secondary bg-clip-text text-transparent">¿Listo para simplificar tus cotizaciones?</h2>
+      <p class="text-xl mb-8 text-base-content/90 font-medium">
         Únete a miles de empresas que ya confían en InstaCotiza para generar cotizaciones profesionales.
       </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center stagger-animation">
         <a class="btn btn-primary btn-lg" routerLink="/cotizador">
           Crear mi primera cotización
         </a>
@@ -153,5 +209,16 @@
     </div>
   </div>
 
+  <!-- Botón Volver Arriba -->
+  @if (showScrollTop) {
+    <button 
+      (click)="scrollToTop()"
+      class="fixed bottom-8 right-8 btn btn-circle btn-primary shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in"
+      aria-label="Volver arriba">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
+  }
 
 </div>
