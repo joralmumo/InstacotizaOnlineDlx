@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
+import { inject } from "@vercel/analytics"
+
 
 
 @Component({
