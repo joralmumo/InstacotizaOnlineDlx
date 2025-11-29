@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-instalar-app',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './instalar-app.component.html',
   styleUrl: './instalar-app.component.css'
 })
