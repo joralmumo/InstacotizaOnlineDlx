@@ -13,13 +13,13 @@
 
 .header h1 {
   font-size: 2.5rem;
-  color: #2c3e50;
+  color: #1e5e3f;
   margin-bottom: 0.5rem;
 }
 
 .subtitle {
   font-size: 1.1rem;
-  color: #7f8c8d;
+  color: #64748b;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -32,7 +32,7 @@
 .benefits-section h2 {
   text-align: center;
   font-size: 2rem;
-  color: #2c3e50;
+  color: #1e5e3f;
   margin-bottom: 2rem;
 }
 
@@ -44,18 +44,18 @@
 }
 
 .benefit-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
   padding: 2rem;
   border-radius: 15px;
   text-align: center;
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .benefit-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 25px rgba(45, 212, 191, 0.4);
 }
 
 .benefit-icon {
@@ -90,11 +90,11 @@
 }
 
 .instruction-card.android {
-  border-color: #3ddc84;
+  border-color: #2dd4bf;
 }
 
 .instruction-card.ios {
-  border-color: #007aff;
+  border-color: #0ea5e9;
 }
 
 .platform-header {
@@ -116,23 +116,31 @@
 }
 
 .android-icon {
-  background: linear-gradient(135deg, #3ddc84 0%, #2db76f 100%);
+  color: #14b8a6;
+}
+
+.android-icon svg {
+  filter: drop-shadow(0 2px 4px rgba(20, 184, 166, 0.3));
 }
 
 .ios-icon {
-  background: linear-gradient(135deg, #007aff 0%, #0051d5 100%);
+  color: #0284c7;
+}
+
+.ios-icon svg {
+  filter: drop-shadow(0 2px 4px rgba(2, 132, 199, 0.3));
 }
 
 .platform-header h2 {
   font-size: 1.8rem;
-  color: #2c3e50;
+  color: #1e5e3f;
   flex: 1;
   margin: 0;
 }
 
 .badge {
-  background: #ecf0f1;
-  color: #7f8c8d;
+  background: #d1fae5;
+  color: #065f46;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -153,7 +161,7 @@
 }
 
 .step-number {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
   color: white;
   width: 50px;
   height: 50px;
@@ -164,11 +172,11 @@
   font-size: 1.5rem;
   font-weight: bold;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 10px rgba(45, 212, 191, 0.3);
 }
 
 .step.success .step-number {
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   font-size: 2rem;
 }
 
@@ -178,19 +186,19 @@
 
 .step-content h3 {
   font-size: 1.3rem;
-  color: #2c3e50;
+  color: #1e5e3f;
   margin-bottom: 0.5rem;
 }
 
 .step-content p {
   font-size: 1rem;
-  color: #546e7a;
+  color: #475569;
   line-height: 1.6;
   margin-bottom: 1rem;
 }
 
 .step-content strong {
-  color: #2c3e50;
+  color: #1e5e3f;
   font-weight: 600;
 }
 
@@ -219,10 +227,10 @@
 }
 
 .placeholder-box {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
   padding: 3rem 2rem;
   text-align: center;
-  border: 2px dashed #bdc3c7;
+  border: 2px dashed #5eead4;
   border-radius: 10px;
 }
 
@@ -234,7 +242,7 @@
 }
 
 .placeholder-box p {
-  color: #7f8c8d;
+  color: #0f766e;
   font-size: 0.95rem;
   margin: 0;
   font-weight: 500;
@@ -248,7 +256,7 @@
 .faq-section h2 {
   text-align: center;
   font-size: 2rem;
-  color: #2c3e50;
+  color: #1e5e3f;
   margin-bottom: 2rem;
 }
 
@@ -259,42 +267,42 @@
 }
 
 .faq-item {
-  background: #f8f9fa;
+  background: #f0fdfa;
   padding: 1.5rem;
   border-radius: 10px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #2dd4bf;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .faq-item:hover {
   transform: translateX(5px);
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 15px rgba(45, 212, 191, 0.2);
 }
 
 .faq-item h3 {
   font-size: 1.1rem;
-  color: #2c3e50;
+  color: #1e5e3f;
   margin-bottom: 0.5rem;
 }
 
 .faq-item p {
   font-size: 0.95rem;
-  color: #546e7a;
+  color: #475569;
   line-height: 1.5;
   margin: 0;
 }
 
 /* Footer Note */
 .footer-note {
-  background: #fff3cd;
-  border: 1px solid #ffc107;
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
   border-radius: 10px;
   padding: 1.5rem;
   text-align: center;
 }
 
 .footer-note p {
-  color: #856404;
+  color: #78350f;
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.6;
