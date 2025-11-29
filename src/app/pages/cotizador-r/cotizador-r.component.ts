@@ -45,7 +45,7 @@ interface Producto {
 }
 
 type productForm = FormGroup<{
-  producto: FormControl<Producto | null>;
+  producto: FormControl<string>;
   descripcion: FormControl<string>;
   unidad: FormControl<string>;
   cantidad: FormControl<number>;
@@ -582,7 +582,7 @@ export class CotizadorRComponent implements OnInit, OnDestroy{
 
   createProductForm(): productForm {
     return this.formBuilder.group({
-      producto: this.formBuilder.control<Producto | null>(null, Validators.required),
+      producto: this.formBuilder.control('', Validators.required),
       descripcion: this.formBuilder.control('', Validators.required),
       unidad: this.formBuilder.control('', Validators.required),
       cantidad: this.formBuilder.control(0, [Validators.required, Validators.min(0)]),
