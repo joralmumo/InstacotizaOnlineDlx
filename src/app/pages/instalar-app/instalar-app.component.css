@@ -216,6 +216,9 @@
   margin-top: 1rem;
   border-radius: 10px;
   overflow: hidden;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .image-placeholder img {
