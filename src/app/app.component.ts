@@ -1,13 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
-import { NgOptimizedImage } from '@angular/common';
 // import { inject as injectAnalytics } from '@vercel/analytics';
 
 // injectAnalytics();
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgOptimizedImage],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
