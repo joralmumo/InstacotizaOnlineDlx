@@ -34,6 +34,16 @@
   font-size: 2rem;
   color: #1e5e3f;
   margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.benefits-section h2 .section-icon {
+  flex-shrink: 0;
+  color: #10b981;
+  filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
 }
 
 .benefits-grid {
@@ -44,18 +54,18 @@
 }
 
 .benefit-card {
-  background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
+  background: linear-gradient(135deg, #10b981 0%, #1b7791 100%);
   padding: 2rem;
   border-radius: 15px;
   text-align: center;
   color: white;
-  box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .benefit-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(45, 212, 191, 0.4);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
 }
 
 .benefit-icon {
@@ -90,11 +100,11 @@
 }
 
 .instruction-card.android {
-  border-color: #2dd4bf;
+  border-color: #10b981;
 }
 
 .instruction-card.ios {
-  border-color: #0ea5e9;
+  border-color: #059669;
 }
 
 .platform-header {
@@ -116,19 +126,19 @@
 }
 
 .android-icon {
-  color: #14b8a6;
+  color: #10b981;
 }
 
 .android-icon svg {
-  filter: drop-shadow(0 2px 4px rgba(20, 184, 166, 0.3));
+  filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
 }
 
 .ios-icon {
-  color: #0284c7;
+  color: #059669;
 }
 
 .ios-icon svg {
-  filter: drop-shadow(0 2px 4px rgba(2, 132, 199, 0.3));
+  filter: drop-shadow(0 2px 4px rgba(5, 150, 105, 0.3));
 }
 
 .platform-header h2 {
@@ -161,7 +171,7 @@
 }
 
 .step-number {
-  background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
   width: 50px;
   height: 50px;
@@ -172,11 +182,11 @@
   font-size: 1.5rem;
   font-weight: bold;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(45, 212, 191, 0.3);
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
 }
 
 .step.success .step-number {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
   font-size: 2rem;
 }
 
@@ -230,10 +240,10 @@
 }
 
 .placeholder-box {
-  background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
   padding: 3rem 2rem;
   text-align: center;
-  border: 2px dashed #5eead4;
+  border: 2px dashed #86efac;
   border-radius: 10px;
 }
 
@@ -245,7 +255,7 @@
 }
 
 .placeholder-box p {
-  color: #0f766e;
+  color: #166534;
   font-size: 0.95rem;
   margin: 0;
   font-weight: 500;
@@ -269,8 +279,8 @@
 
 .faq-section h2 .section-icon {
   flex-shrink: 0;
-  color: #14b8a6;
-  filter: drop-shadow(0 2px 4px rgba(20, 184, 166, 0.3));
+  color: #10b981;
+  filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
 }
 
 .faq-grid {
@@ -280,16 +290,16 @@
 }
 
 .faq-item {
-  background: #f0fdfa;
+  background: #f0fdf4;
   padding: 1.5rem;
   border-radius: 10px;
-  border-left: 4px solid #2dd4bf;
+  border-left: 4px solid #10b981;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .faq-item:hover {
   transform: translateX(5px);
-  box-shadow: 0 3px 15px rgba(45, 212, 191, 0.2);
+  box-shadow: 0 3px 15px rgba(16, 185, 129, 0.2);
 }
 
 .faq-item h3 {
@@ -329,6 +339,11 @@
 
   .subtitle {
     font-size: 1rem;
+  }
+
+  .benefits-section h2 {
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   .benefits-grid {
