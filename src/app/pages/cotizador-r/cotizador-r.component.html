@@ -1,134 +1,61 @@
-<form [formGroup]="form" class="space-y-6 p-4">    
-  <!-- Barra de Acciones Responsive -->
-  <div class="card bg-base-100 shadow mt-6 mb-6">
-    <div class="card-body p-4">
-      <!-- Título -->
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-          </svg>
-          Acciones
-        </h3>
-        <div class="badge badge-primary badge-sm">Conectado</div>
-      </div>
-
-
-      <!-- Grid de botones: 2 colunmas en celu, 3 en tablet, 6 en pc -->
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        
-        <!-- Botón 1: Generar Documento -->
-        <button 
-          (click)="generar_doc()" 
-          class="btn btn-primary tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
-          data-tip="Crear archivo .docx">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-          </svg>
-          <span class="text-xs font-semibold">Generar</span>
-        </button>
-
-        <!-- Botón 2: Guardar Nueva -->
-        <button 
-          (click)="guardarCotizacion()" 
-          class="btn btn-success tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
-          data-tip="Guardar nueva cotización">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-          </svg>
-          <span class="text-xs font-semibold">Guardar</span>
-        </button>
-
-        <!-- Botón 3: Actualizar -->
-        <button 
-          (click)="sobreescribirCotizacion()" 
-          class="btn btn-warning tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
-          data-tip="Actualizar existente">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-          <span class="text-xs font-semibold">Actualizar</span>
-        </button>
-
-        <!-- Botón 4: Cargar -->
-        <button 
-          (click)="cargarCotizacion()" 
-          class="btn btn-info tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
-          data-tip="Cargar desde nube">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-          </svg>
-          <span class="text-xs font-semibold">Cargar</span>
-        </button>
-
-        <!-- Botón 5: Exportar -->
-        <button 
-          (click)="exportar_cotizacion()" 
-          class="btn btn-accent tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
-          data-tip="Exportar archivo plantilla">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <span class="text-xs font-semibold">Exportar</span>
-        </button>
-
-        <!-- Botón 6: Importar -->
-        <button 
-          (click)="importar_cotizacion()" 
-          class="btn btn-secondary tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
-          data-tip="Importar archivo plantilla">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3v-6" />
-          </svg>
-          <span class="text-xs font-semibold">Importar</span>
-        </button>
-
-      </div>
-
-      <!-- Divider -->
-      <div class="divider my-2"></div>
-
-      <!-- Botón Limpiar centrado abajo -->
-      <div class="flex justify-center">
-        <button 
-          (click)="limpiarFormulario()" 
-          class="btn btn-error btn-wide tooltip tooltip-bottom gap-2" 
-          data-tip="Borrar todo el formulario">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
-          Limpiar Formulario
-        </button>
-      </div>
-
+<form [formGroup]="form" class="space-y-6 p-4">
+  <!-- Paso 0: ¿Tiene cotización guardada? -->
+  <div class="step-card">
+    <h3 class="step-title">¿Ya tiene una cotización guardada?</h3>
+    <p class="step-help">Si ya tiene una cotización en Internet o en su computadora, puede cargarla aquí</p>
+    <div class="load-buttons">
+      <button type="button" (click)="cargarCotizacion()" class="load-btn load-btn-cloud">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+        </svg>
+        <div>
+          <div class="load-btn-title">Abrir de Internet</div>
+          <div class="load-btn-desc">Ver mis cotizaciones guardadas en la nube</div>
+        </div>
+      </button>
+      <button type="button" (click)="importar_cotizacion()" class="load-btn load-btn-pc">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <div>
+          <div class="load-btn-title">Abrir de Mi PC</div>
+          <div class="load-btn-desc">Cargar archivo guardado en mi computadora</div>
+        </div>
+      </button>
     </div>
   </div>
 
+  <!-- Header Principal -->
+  <div class="header-section">
+    <h1 class="main-title">📋 Nueva Cotización</h1>
+    <p class="subtitle">Complete los siguientes datos para crear su cotización</p>
+  </div>
 
-  <!-- Moneda -->
+  <!-- Moneda y Número de Cotización -->
   <div class="form-control">
-    <div class="flex items-center mb-2 gap-2">
-      <label for="moneda" class="label font-medium">Moneda</label>
-      <br>
-      <select
-        formControlName="moneda"
-        id="moneda"
-        class="select select-bordered w-full"
-      >
-        <option value="CLP">CLP</option>
-        <option value="UF">UF</option>
-      </select>
-      <br>
-      <label for="nro_cotizacion">Nº Cotización</label>
-      <input formControlName="nro_cotizacion" id="nro_cotizacion" placeholder="N° Cotización" class="input input-bordered w-32 ml-4"/>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label for="moneda" class="label font-medium">Moneda</label>
+        <select
+          formControlName="moneda"
+          id="moneda"
+          class="select select-bordered w-full"
+        >
+          <option value="CLP">CLP</option>
+          <option value="UF">UF</option>
+        </select>
+      </div>
+      <div>
+        <label for="nro_cotizacion" class="label font-medium">Nº Cotización</label>
+        <input formControlName="nro_cotizacion" id="nro_cotizacion" placeholder="N° Cotización" class="input input-bordered w-full"/>
+      </div>
     </div>
-    
   </div>
 
   <!-- Empresa -->
   <div class="collapse collapse-arrow bg-base-200 rounded-lg shadow">
     <input type="checkbox" />
-    <div class="collapse-title text-lg font-bold">DATOS DE TU EMPRESA</div>
+    <div class="collapse-title text-lg font-bold">DATOS DE SU EMPRESA</div>
     <div class="collapse-content space-y-3">
       <div class="form-control">
         <label for="nombre_empresa" class="label">Nombre Empresa</label>
@@ -190,7 +117,7 @@
   <!-- Cliente -->
   <div class="collapse collapse-arrow bg-base-200 rounded-lg shadow">
     <input type="checkbox" />
-    <div class="collapse-title text-lg font-bold">DATOS CLIENTE</div>
+    <div class="collapse-title text-lg font-bold">DATOS DEL CLIENTE</div>
     <div class="collapse-content space-y-3">
       <div class="form-control">
         <label for="nombre_cliente" class="label">Nombre Cliente</label>
@@ -252,16 +179,22 @@
   <!-- Productos -->
   <div class="bg-base-200 p-4 rounded-lg shadow space-y-3">
     <h2 class="text-lg font-bold">PRODUCTOS / SERVICIOS</h2>
+    <p class="helper-text">📦 Agregue los productos o servicios que desea cotizar</p>
     <div class="flex flex-col gap-2">
-      <span class="text-sm">Total de Prod. / Serv.: {{productosArray.length}}</span>
       <button
         type="button"
         (click)="addProduct()"
-        class="btn btn-primary btn-sm w-fit"
+        class="btn-add-product-new"
       >
-        Agregar
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        <span>Agregar Producto / Servicio</span>
       </button>
-      <div class="overflow-x-auto">
+      <span class="product-counter">Total: {{productosArray.length}} producto(s)</span>
+      
+      <!-- Vista Desktop: Tabla normal -->
+      <div class="overflow-x-auto desktop-table">
         <table class="table table-zebra w-full text-sm">
           <thead>
             <tr>
@@ -295,7 +228,7 @@
                     class="select select-bordered select-sm w-full"
                   >
                     <option value="" disabled>Seleccione</option>
-                    <option value="na">No Aplica</option>
+                    <option value="na">N/A</option>
                     <option value="m">m</option>
                     <option value="m2">m²</option>
                     <option value="m3">m³</option>
@@ -308,7 +241,7 @@
                     formControlName="cantidad"
                     type="number"
                     min="0"
-                    class="input input-bordered input-sm w-20"
+                    class="input input-bordered input-sm w-full"
                   />
                 </td>
                 <td>
@@ -316,7 +249,7 @@
                     formControlName="valorUnitario"
                     type="number"
                     min="0"
-                    class="input input-bordered input-sm w-24"
+                    class="input input-bordered input-sm w-full"
                   />
                 </td>
                 <td>
@@ -335,6 +268,60 @@
             }
           </tbody>
         </table>
+      </div>
+
+      <!-- Vista Mobile: Cards -->
+      <div class="mobile-products" formArrayName="productos">
+        @for (control of productosArray.controls; track control; let index=$index){
+          <div class="product-card-mobile" [formGroupName]="index">
+            <div class="mobile-card-header">
+              <span class="product-number">Producto #{{index + 1}}</span>
+              <button type="button" (click)="removeProduct(index)" class="btn btn-error btn-xs">Eliminar</button>
+            </div>
+            
+            <div class="mobile-card-content">
+              <div class="form-control">
+                <label class="label-mobile">Producto/Servicio</label>
+                <textarea formControlName="producto" class="textarea textarea-bordered textarea-sm w-full"></textarea>
+              </div>
+
+              <div class="form-control">
+                <label class="label-mobile">Descripción</label>
+                <textarea formControlName="descripcion" class="textarea textarea-bordered textarea-sm w-full"></textarea>
+              </div>
+
+              <div class="form-control">
+                <label class="label-mobile">Unidad</label>
+                <select formControlName="unidad" class="select select-bordered select-sm w-full">
+                  <option value="" disabled>Seleccione</option>
+                  <option value="na">N/A</option>
+                  <option value="m">m</option>
+                  <option value="m2">m²</option>
+                  <option value="m3">m³</option>
+                  <option value="cm">cm</option>
+                  <option value="cm2">cm²</option>
+                </select>
+              </div>
+
+              <div class="mobile-grid-2">
+                <div class="form-control">
+                  <label class="label-mobile">Cantidad</label>
+                  <input formControlName="cantidad" type="number" min="0" class="input input-bordered input-sm w-full"/>
+                </div>
+
+                <div class="form-control">
+                  <label class="label-mobile">Valor Unitario</label>
+                  <input formControlName="valorUnitario" type="number" min="0" class="input input-bordered input-sm w-full"/>
+                </div>
+              </div>
+
+              <div class="mobile-total">
+                <span class="mobile-total-label">Total:</span>
+                <span class="mobile-total-value">{{ getTotal(index) | number:'1.0-0' }}</span>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     </div>
 
@@ -362,7 +349,8 @@
 
   <!-- Condiciones -->
   <div class="bg-base-200 p-4 rounded-lg shadow space-y-3">
-    <h2 class="text-lg font-bold">CONDICIONES</h2>
+    <h2 class="text-lg font-bold">CONDICIONES DE LA COTIZACIÓN</h2>
+    <p class="helper-text">📝 Indique las condiciones comerciales de su cotización</p>
     <div class="form-control">
       <label for="validez_oferta" class="label">Validez Oferta</label>
       <input
@@ -389,6 +377,58 @@
         placeholder="Presupuesto Incluye"
         class="input input-bordered w-full"
       />
+    </div>
+  </div>
+
+  <!-- Acciones Finales -->
+  <div class="final-section">
+    <h2 class="final-title">¿Qué quiere hacer ahora?</h2>
+    <p class="final-subtitle">Elija la acción que necesite realizar con su cotización</p>
+
+    <div class="action-buttons-grid">
+      <!-- Crear Documento -->
+      <button type="button" (click)="generar_doc()" class="action-btn action-btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <div class="btn-content">
+          <div class="btn-title">📄 Crear Documento Word</div>
+          <div class="btn-desc">Genera un archivo .docx listo para imprimir o enviar</div>
+        </div>
+      </button>
+
+      <!-- Guardar en Internet -->
+      <button type="button" (click)="guardarCotizacion()" class="action-btn action-btn-success">
+        <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+        </svg>
+        <div class="btn-content">
+          <div class="btn-title">💾 Guardar en Internet</div>
+          <div class="btn-desc">Guarda en la nube para acceder desde cualquier lugar</div>
+        </div>
+      </button>
+
+      <!-- Guardar en PC -->
+      <button type="button" (click)="exportar_cotizacion()" class="action-btn action-btn-warning">
+        <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+        </svg>
+        <div class="btn-content">
+          <div class="btn-title">💻 Guardar en Mi PC</div>
+          <div class="btn-desc">Descarga un archivo a su computadora (funciona sin Internet)</div>
+        </div>
+      </button>
+
+      <!-- Limpiar Formulario -->
+      <button type="button" (click)="limpiarFormulario()" class="action-btn action-btn-danger">
+        <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+        <div class="btn-content">
+          <div class="btn-title">🗑️ Empezar de Nuevo</div>
+          <div class="btn-desc">⚠️ Esto borra TODOS los datos del formulario actual</div>
+        </div>
+      </button>
     </div>
   </div>
 </form>
