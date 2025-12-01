@@ -15,6 +15,16 @@
   font-size: 2.5rem;
   color: #1e5e3f;
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.header h1 .title-icon {
+  color: #10b981;
+  filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
+  flex-shrink: 0;
 }
 
 .subtitle {
@@ -54,34 +64,62 @@
 }
 
 .benefit-card {
-  background: linear-gradient(135deg, #10b981 0%, #1b7791 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, #f0fdf4 100%);
   padding: 2rem;
-  border-radius: 15px;
+  border-radius: 20px;
   text-align: center;
-  color: white;
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #10b981;
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.benefit-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
 }
 
 .benefit-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.25);
+  border-color: #059669;
 }
 
-.benefit-icon {
-  font-size: 3rem;
-  display: block;
-  margin-bottom: 1rem;
+.benefit-icon-wrapper {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.benefit-card:hover .benefit-icon-wrapper {
+  transform: scale(1.05) rotate(3deg);
 }
 
 .benefit-card h3 {
   font-size: 1.3rem;
   margin-bottom: 0.5rem;
+  color: #1e5e3f;
+  font-weight: 600;
 }
 
 .benefit-card p {
   font-size: 0.95rem;
-  opacity: 0.9;
+  color: #64748b;
+  line-height: 1.6;
 }
 
 /* Instructions Section */
@@ -335,6 +373,12 @@
 @media (max-width: 768px) {
   .header h1 {
     font-size: 2rem;
+    flex-direction: row;
+  }
+
+  .header h1 .title-icon {
+    width: 32px;
+    height: 32px;
   }
 
   .subtitle {
@@ -386,6 +430,11 @@
 
   .header h1 {
     font-size: 1.8rem;
+  }
+
+  .header h1 .title-icon {
+    width: 28px;
+    height: 28px;
   }
 
   .benefit-card {
