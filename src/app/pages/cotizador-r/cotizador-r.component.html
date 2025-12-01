@@ -317,7 +317,7 @@
 
               <div class="mobile-total">
                 <span class="mobile-total-label">Total:</span>
-                <span class="mobile-total-value">$ {{ getTotal(index) | number:'1.0-0' }}</span>
+                <span class="mobile-total-value">$ {{ getTotal(index) | number:'1.0-0':'es' }}</span>
               </div>
             </div>
           </div>
@@ -338,9 +338,9 @@
         </thead>
         <tbody>
           <tr>
-            <td>$ {{ getSubtotal() | number:'1.0-0' }}</td>
-            <td>$ {{ getIVA() | number:'1.0-0' }}</td>
-            <td>$ {{ getTotalCotizacion() | number:'1.0-0' }}</td>
+            <td>$ {{ getSubtotal() | number:'1.0-0':'es' }}</td>
+            <td>$ {{ getIVA() | number:'1.0-0':'es' }}</td>
+            <td>$ {{ getTotalCotizacion() | number:'1.0-0':'es' }}</td>
           </tr>
         </tbody>
       </table>
