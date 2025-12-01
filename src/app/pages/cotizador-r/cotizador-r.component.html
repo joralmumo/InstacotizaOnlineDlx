@@ -1,9 +1,21 @@
 <form [formGroup]="form" class="space-y-6 p-4">    
   <!-- Moneda -->
-  <h1 class="text-2xl font-bold text-center">Cotizador</h1>
+
   <!-- Barra de Acciones Responsive -->
   <div class="card bg-base-100 shadow mt-6 mb-6">
     <div class="card-body p-4">
+      <!-- Título -->
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+          </svg>
+          Acciones
+        </h3>
+        <div class="badge badge-primary badge-sm">Conectado</div>
+      </div>
+
+
       <!-- Grid de botones: 2 colunmas en celu, 3 en tablet, 6 en pc -->
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         
