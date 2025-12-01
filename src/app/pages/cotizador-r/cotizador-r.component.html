@@ -1,14 +1,101 @@
 <form [formGroup]="form" class="space-y-6 p-4">    
   <!-- Moneda -->
-  <h1 class="text-2xl font-bold">Cotizador</h1>
-  <div class="flex items-center mb-12 gap-2 flex-wrap ">
-    <button type="button" (click)="importar_cotizacion()" class="btn btn-outline btn-sm">Importar Plantilla</button>
-    <button type="button" (click)="exportar_cotizacion()" class="btn btn-outline btn-sm">Exportar Plantilla</button>
-    <button type="button" (click)="sobreescribirCotizacion()" class="btn btn-accent btn-sm">Sobreescribir Cotización</button>
-    <button type="button" (click)="guardarCotizacion()" class="btn btn-success btn-sm">Guardar Cotizacion</button>
-    <button type="button" (click)="limpiarFormulario()" class="btn btn-error btn-sm">Limpiar Cotización</button>
+  <h1 class="text-2xl font-bold text-center">Cotizador</h1>
+  <!-- Barra de Acciones Responsive -->
+  <div class="card bg-base-100 shadow mt-6 mb-6">
+    <div class="card-body p-4">
+      <!-- Grid de botones: 2 colunmas en celu, 3 en tablet, 6 en pc -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        
+        <!-- Botón 1: Generar Documento -->
+        <button 
+          (click)="generar_doc()" 
+          class="btn btn-primary tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
+          data-tip="Crear archivo .docx">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+          <span class="text-xs font-semibold">Generar</span>
+        </button>
 
+        <!-- Botón 2: Guardar Nueva -->
+        <button 
+          (click)="guardarCotizacion()" 
+          class="btn btn-success tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
+          data-tip="Guardar nueva cotización">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+          </svg>
+          <span class="text-xs font-semibold">Guardar</span>
+        </button>
+
+        <!-- Botón 3: Actualizar -->
+        <button 
+          (click)="sobreescribirCotizacion()" 
+          class="btn btn-warning tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
+          data-tip="Actualizar existente">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <span class="text-xs font-semibold">Actualizar</span>
+        </button>
+
+        <!-- Botón 4: Cargar -->
+        <button 
+          (click)="cargarCotizacion()" 
+          class="btn btn-info tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
+          data-tip="Cargar desde nube">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+          <span class="text-xs font-semibold">Cargar</span>
+        </button>
+
+        <!-- Botón 5: Exportar -->
+        <button 
+          (click)="exportar_cotizacion()" 
+          class="btn btn-accent tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
+          data-tip="Exportar archivo plantilla">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span class="text-xs font-semibold">Exportar</span>
+        </button>
+
+        <!-- Botón 6: Importar -->
+        <button 
+          (click)="importar_cotizacion()" 
+          class="btn btn-secondary tooltip tooltip-bottom h-auto py-3 flex-col gap-1" 
+          data-tip="Importar archivo plantilla">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3v-6" />
+          </svg>
+          <span class="text-xs font-semibold">Importar</span>
+        </button>
+
+      </div>
+
+      <!-- Divider -->
+      <div class="divider my-2"></div>
+
+      <!-- Botón Limpiar centrado abajo -->
+      <div class="flex justify-center">
+        <button 
+          (click)="limpiarFormulario()" 
+          class="btn btn-error btn-wide tooltip tooltip-bottom gap-2" 
+          data-tip="Borrar todo el formulario">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+          Limpiar Formulario
+        </button>
+      </div>
+
+    </div>
   </div>
+
+
+
   <div class="form-control">
     <div class="flex items-center mb-2 gap-2">
       <label for="moneda" class="label font-medium">Moneda</label>
@@ -292,12 +379,5 @@
         class="input input-bordered w-full"
       />
     </div>
-  </div>
-
-  <!-- Generar -->
-  <div class="flex gap-2 justify-center">
-    <button type="button" (click)="generar_doc()" class="btn btn-secondary">
-      Generar DOC
-    </button>
   </div>
 </form>
