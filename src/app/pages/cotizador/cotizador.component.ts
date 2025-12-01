@@ -273,11 +273,11 @@ export class CotizadorComponent {
       if (datos.productos && datos.productos.length > 0) {
         datos.productos.forEach((producto: any) => {
           const productoForm = this.formBuilder.group({
-            producto: this.formBuilder.control(producto.producto || '', Validators.required),
-            descripcion: this.formBuilder.control(producto.descripcion || '', Validators.required),
-            unidad: this.formBuilder.control(producto.unidad || '', Validators.required),
-            cantidad: this.formBuilder.control(producto.cantidad || 0, [Validators.required, Validators.min(0)]),
-            valorUnitario: this.formBuilder.control(producto.valorUnitario || 0, [Validators.required, Validators.min(0)])
+            producto: this.formBuilder.control(producto.producto || '', ),
+            descripcion: this.formBuilder.control(producto.descripcion || '', ),
+            unidad: this.formBuilder.control(producto.unidad || '', ),
+            cantidad: this.formBuilder.control(producto.cantidad || 0, [Validators.min(0)]),
+            valorUnitario: this.formBuilder.control(producto.valorUnitario || 0, [Validators.min(0)])
           });
           
           this.productosArray.push(productoForm);
@@ -298,33 +298,33 @@ export class CotizadorComponent {
   //MÉTODOS DEL FORMULARIO!
 
   form: Form = this.formBuilder.group({
-    nro_cotizacion: this.formBuilder.control('', Validators.required),
-    nombre_empresa: this.formBuilder.control('', Validators.required),
-    telefono_empresa: this.formBuilder.control('', [Validators.required, Validators.pattern('^[0-9]+$')]),
-    rut_empresa: this.formBuilder.control('', Validators.required),
-    email_empresa: this.formBuilder.control('', [Validators.required, Validators.email]),
-    direccion_empresa: this.formBuilder.control('', Validators.required),
+    nro_cotizacion: this.formBuilder.control('', ),
+    nombre_empresa: this.formBuilder.control('', ),
+    telefono_empresa: this.formBuilder.control('', [Validators.pattern('^[0-9]+$')]),
+    rut_empresa: this.formBuilder.control('', ),
+    email_empresa: this.formBuilder.control('', [Validators.email]),
+    direccion_empresa: this.formBuilder.control('', ),
     productos: this.formBuilder.array<productForm>([this.createProductForm()]),
-    nombre_cliente: this.formBuilder.control('', Validators.required),
-    obra_cliente: this.formBuilder.control('', Validators.required),
-    contacto_cliente: this.formBuilder.control('', Validators.required),
-    email_cliente: this.formBuilder.control('', [Validators.required, Validators.email]),
-    direccion_cliente: this.formBuilder.control('', Validators.required),
-    fecha: this.formBuilder.control('', Validators.required),
-    validez_oferta: this.formBuilder.control('', Validators.required),
-    forma_pago: this.formBuilder.control('', Validators.required),
-    presupuesto_incluye: this.formBuilder.control('', Validators.required),
-    moneda: this.formBuilder.control('CLP', Validators.required),
+    nombre_cliente: this.formBuilder.control('', ),
+    obra_cliente: this.formBuilder.control('', ),
+    contacto_cliente: this.formBuilder.control('', ),
+    email_cliente: this.formBuilder.control('', [Validators.email]),
+    direccion_cliente: this.formBuilder.control('', ),
+    fecha: this.formBuilder.control('', ),
+    validez_oferta: this.formBuilder.control('', ),
+    forma_pago: this.formBuilder.control('', ),
+    presupuesto_incluye: this.formBuilder.control('', ),
+    moneda: this.formBuilder.control('CLP', ),
     logo: this.formBuilder.control<File | null>(null)
   });
 
   createProductForm(): productForm {
     return this.formBuilder.group({
-      producto: this.formBuilder.control('', Validators.required),
-      descripcion: this.formBuilder.control('', Validators.required),
-      unidad: this.formBuilder.control('', Validators.required),
-      cantidad: this.formBuilder.control(0, [Validators.required, Validators.min(0)]),
-      valorUnitario: this.formBuilder.control(0, [Validators.required, Validators.min(0)]),
+      producto: this.formBuilder.control('', ),
+      descripcion: this.formBuilder.control('', ),
+      unidad: this.formBuilder.control('', ),
+      cantidad: this.formBuilder.control(0, [Validators.min(0)]),
+      valorUnitario: this.formBuilder.control(0, [Validators.min(0)]),
     });
   }
 
