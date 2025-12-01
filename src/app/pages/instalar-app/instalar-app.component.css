@@ -261,15 +261,6 @@
   font-size: 2rem;
   color: #1e5e3f;
   margin-bottom: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.faq-section h2 svg {
-  color: #14b8a6;
-  filter: drop-shadow(0 2px 4px rgba(20, 184, 166, 0.3));
 }
 
 .faq-grid {
