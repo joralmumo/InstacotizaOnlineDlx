@@ -201,7 +201,7 @@ export class CotizadorComponent {
       return false;
     }
     
-    // Verificar estructura de prodyuctos
+    // Verificar estructura de productos
     for (const producto of datos.productos) {
       const camposProducto = ['producto', 'descripcion', 'unidad', 'cantidad', 'valorUnitario'];
       for (const campo of camposProducto) {
