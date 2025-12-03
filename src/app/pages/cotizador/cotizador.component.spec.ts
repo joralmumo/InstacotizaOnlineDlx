@@ -7,7 +7,6 @@ describe('CotizadorComponent', () => {
   let component: CotizadorComponent;
   let fixture: ComponentFixture<CotizadorComponent>;
 
-  // Mock data
   const mockCotizacion = {
     nro_cotizacion: '001',
     nombre_empresa: 'Test Empresa',
